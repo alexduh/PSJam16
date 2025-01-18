@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log("This weapon is following " + this.name);
         // if weapon is ranged, check if it has ammo remaining
         if (ranged && curr_ammo <= 0)
         {
@@ -17,12 +18,12 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    protected void JamWeapon()
+    public void JamWeapon()
     {
 
     }
 
-    protected void Throw()
+    public void Throw()
     {
         // TODO: remove Player's currently selected weapon from weapon list
         // TODO: add velocity and collision to thrown weapon

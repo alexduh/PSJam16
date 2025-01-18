@@ -14,7 +14,7 @@ public class Player : Singleton<Player>
     Vector2 moveVector;
     Vector2 cursorPos;
     [SerializeField] PlayerInput playerInput;
-    InputAction moveAction; InputAction shootAction; InputAction lookAction; InputAction interactAction; InputAction throwAction;
+    InputAction moveAction; InputAction shootAction; InputAction lookAction; InputAction interactAction; InputAction throwAction; InputAction previousWeaponAction; InputAction nextWeaponAction;
     Rigidbody2D rb;
 
     [SerializeField] List<Weapon> weaponList = new List<Weapon>();
@@ -33,6 +33,8 @@ public class Player : Singleton<Player>
         shootAction = playerInput.actions["Shoot"];
         throwAction = playerInput.actions["Throw"];
         interactAction = playerInput.actions["Interact"];
+        previousWeaponAction = playerInput.actions["Interact"];
+        nextWeaponAction = playerInput.actions["Interact"];
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -64,6 +66,15 @@ public class Player : Singleton<Player>
 
         }
 
+        if (previousWeaponAction.WasPressedThisFrame())
+        {
+            ChangeWeaponIndex(weaponIndex - 1);
+        }
+
+        if (nextWeaponAction.WasPressedThisFrame())
+        {
+            ChangeWeaponIndex(weaponIndex + 1);
+        }
     }
 
     private void FixedUpdate()
@@ -78,5 +89,12 @@ public class Player : Singleton<Player>
     private void AttackWeapon()
     {
         weaponList[weaponIndex].Attack();
+    }
+
+    private void ChangeWeaponIndex(int changeTo)
+    {
+        weaponIndex = changeTo;
+        if(weaponIndex < 0) weaponIndex = weaponList.Count - 1;
+        if (weaponIndex >= weaponList.Count) weaponIndex = 0;
     }
 }
