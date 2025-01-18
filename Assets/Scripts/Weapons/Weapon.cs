@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
     protected float curr_ammo;
     protected bool ranged;
     public float range;
+    public float cooldown;
 
     public void Attack()
     {

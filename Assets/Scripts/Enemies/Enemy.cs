@@ -6,26 +6,36 @@ public class Enemy : MonoBehaviour
     public float curr_health;
     public float MOVE_SPEED = 5f;
     public Weapon weapon;
+    public Rigidbody2D rb;
+    public float windUpTime;
+    public float cooldownTime;
 
-    void MoveAndLook()
+    void MoveAndLook() // move towards player and change orientation to face player if out of range
     {
-        //transform.position = Time.deltaTime;
+        rb.linearVelocity = (this.transform.position - Player.Instance.transform.position).normalized;
+        transform.LookAt(Player.Instance.transform);
     }
 
     void AttackPlayer()
     {
-
+        weapon.AttackWindup();
+        weapon.Attack();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         curr_health = MAX_HEALTH;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (windUpTime > 0 || cooldownTime > 0)
+        {
+
+        }
         if (weapon.range >= Vector3.Distance(this.transform.position, Player.Instance.transform.position)) {
             AttackPlayer();
             // TODO: if in range, attack in current direction
@@ -33,7 +43,6 @@ public class Enemy : MonoBehaviour
         else
         {
             MoveAndLook();
-            // TODO: move towards player and change orientation to face player if out of range
         }
 
     }
