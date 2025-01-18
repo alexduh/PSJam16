@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
 
     protected void JamWeapon()
     {
-
+        // TODO: play sound effect (animation?)
     }
 
     protected void Throw()
