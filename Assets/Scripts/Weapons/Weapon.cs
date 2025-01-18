@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     protected float MAX_AMMO;
     protected float curr_ammo;
     protected bool ranged;
+    public float range;
 
     public void Attack()
     {
@@ -18,9 +19,14 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void JamWeapon()
+    public void AttackWindup()
     {
 
+    }
+
+    public void JamWeapon()
+    {
+        // TODO: play sound effect (animation?)
     }
 
     public void Throw()
