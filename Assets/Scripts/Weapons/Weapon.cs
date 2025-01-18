@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     protected float curr_ammo;
     protected bool ranged;
 
-    protected void Attack()
+    public void Attack()
     {
         // if weapon is ranged, check if it has ammo remaining
         if (ranged && curr_ammo <= 0)
