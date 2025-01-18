@@ -2,20 +2,38 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    protected float FIRE_RATE;
-    protected float DAMAGE;
-    protected float MAX_AMMO;
-    protected float curr_ammo;
-    protected bool ranged;
-    public float range;
+    [SerializeField] protected float FIRE_RATE;
+    protected float attackCooldownTime;
+    [SerializeField] protected float DAMAGE;
+    [SerializeField] protected float weight;
 
+    //Variables Related to ranged projectiles
+    [SerializeField] protected bool ranged;
+    public float range;
+    [SerializeField] protected float MAX_AMMO;
+    [SerializeField] protected float curr_ammo;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform weaponSpawnPoint;
+    [SerializeField] protected float projSpeed;
+    [SerializeField] protected float projLifeTime;
+
+    protected void Start()
+    {
+        curr_ammo = MAX_AMMO;
+    }
+
+    private void Update()
+    {
+
+    }
     public void Attack()
     {
-        Debug.Log("This weapon is following " + this.name);
+        Debug.Log("This weapon is attacking: " + this.name);
         // if weapon is ranged, check if it has ammo remaining
-        if (ranged && curr_ammo <= 0)
+        if (ranged)
         {
-            JamWeapon();
+            if (curr_ammo <= 0) { JamWeapon(); }
+            ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, this.transform.up.normalized * projSpeed, DAMAGE, projLifeTime);
         }
     }
 
@@ -26,6 +44,7 @@ public class Weapon : MonoBehaviour
 
     public void JamWeapon()
     {
+        Debug.Log("Weapon Jammed");
         // TODO: play sound effect (animation?)
     }
 
@@ -35,10 +54,6 @@ public class Weapon : MonoBehaviour
         // TODO: add velocity and collision to thrown weapon
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected void Start()
-    {
-        curr_ammo = MAX_AMMO;
-    }
+    
 
 }

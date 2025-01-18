@@ -9,10 +9,10 @@ public class Player : Singleton<Player>
 
     //Player.Instance.Initialize();
 
-    [SerializeField] float MOVE_SPEED = 30f;
+    [SerializeField] float moveSpeed = 30f;
     [SerializeField] float changeVelocitySpeed;
     float actualSpeed;
-    [SerializeField] float ROTATE_SPEED = 10f;
+    [SerializeField] float rotateSpeed = 10f;
     Vector2 moveVector;
     Vector2 cursorPos;
     [SerializeField] PlayerInput playerInput;
@@ -84,7 +84,7 @@ public class Player : Singleton<Player>
         RotateToMousePosition();
 
         //CALCULATE MOVE SPEED BASED ON SUM OF WEAPON WEIGHTS
-        actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, MOVE_SPEED, Time.deltaTime * changeVelocitySpeed);
+        actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, moveSpeed, Time.deltaTime * changeVelocitySpeed);
 
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
         
@@ -114,7 +114,7 @@ public class Player : Singleton<Player>
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Smoothly rotate the player towards the mouse position
-        float step = ROTATE_SPEED * Time.deltaTime;
+        float step = rotateSpeed * Time.deltaTime;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle -90));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
     }

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class Projectile : MonoBehaviour
 {
     float damage;
-    float time;
     [SerializeField] float knockbackVelocity = 40f;
     [SerializeField] GameObject particleTrail;
     public GameObject explosionPrefab;
@@ -40,9 +39,10 @@ public class Projectile : MonoBehaviour
     {
         transform.position = spawnLocation;
         gameObject.SetActive(true);
-        particleTrail.SetActive(false);
+        //particleTrail.SetActive(false); TODO: ADD PROJECTILE TRAIL IF APPLICABLE
         rb.linearVelocity = projectileVelocity;
         StartCoroutine(DisableAfter(projectileLifeSpan));
+        damage = projectileDamage;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -75,11 +75,9 @@ public class Projectile : MonoBehaviour
 
     public void DeactivateProjectile()
     {
-        if (!this.isActiveAndEnabled) return;
         rb.linearVelocity = Vector3.zero;
-        time = 0;
-        particleTrail.SetActive(false);
-        Instantiate(destroyedParticles, transform.position, transform.rotation);
+        //particleTrail.SetActive(false); TODO: ADD PROJECTILE TRAIL IF APPLICABLE
+        //Instantiate(destroyedParticles, transform.position, transform.rotation); TODO: ADD DESTRUCTION PARTICLES IF APPLICABLE
         this.gameObject.SetActive(false);
     }
 
