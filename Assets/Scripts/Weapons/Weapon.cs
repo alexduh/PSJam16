@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float DAMAGE;
     [SerializeField] protected float weight;
 
+
     //Variables Related to ranged projectiles
     [SerializeField] protected bool ranged;
     public float range;
