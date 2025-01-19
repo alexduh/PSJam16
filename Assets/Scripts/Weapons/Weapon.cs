@@ -32,8 +32,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float projSpread;
     [SerializeField] protected int numProj;
     [SerializeField] protected float timeBetweenProj;
-
-
+    public bool friendlyFire; // used to determine if attacks should collide with enemies or player
 
     protected void Start()
     {
@@ -51,7 +50,7 @@ public class Weapon : MonoBehaviour
     {
         MoveToTarget();
     }
-    public void Attack()
+    public void Attack(bool friendly)
     {
         if (attackCooldownTime > 0) return;
         attackCooldownTime = FIRE_RATE;

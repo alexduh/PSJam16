@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 public class Player : Singleton<Player>
 {
 
-    //Player.Instance.Initialize();
-
     [SerializeField] float moveSpeed = 30f;
     [SerializeField] float changeVelocitySpeed;
     float actualSpeed;
@@ -94,7 +92,7 @@ public class Player : Singleton<Player>
     }
     private void AttackWeapon()
     {
-        weaponList[weaponIndex].Attack();
+        //weaponList[weaponIndex].Attack();
     }
 
     private void ThrowCurrentWeapon()
