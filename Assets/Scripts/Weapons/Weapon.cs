@@ -5,20 +5,22 @@ using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
 {
+    public string weaponName;
     [SerializeField] protected float FIRE_RATE;
     protected float attackCooldownTime;
     [SerializeField] protected float DAMAGE;
     [SerializeField] protected float weight;
-    [SerializeField] protected Rigidbody2D rb;
+    protected Rigidbody2D rb;
+    
 
 
     //Variables related to visuals
     [SerializeField] protected GameObject heldSprite;
     [SerializeField] protected GameObject droppedSprite;
-    [SerializeField] protected float movementSpeed = 1f;
+    protected float movementSpeed = 4f;
     public Vector2 setDestination;
     private Vector3 m_Velocity = Vector3.zero;
-    [Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .075f;  // How much to smooth out the movement
+    private float m_MovementSmoothing = .075f;  // How much to smooth out the movement
 
     //Variables Related to ranged projectiles
     [SerializeField] protected bool ranged;
@@ -70,7 +72,6 @@ public class Weapon : MonoBehaviour
     //This allows children classes to modifiy ranged behavior without messing with basic attack behavior
     protected void RangedAttack()
     {
-        if (curr_ammo <= 0) { JamWeapon(); return; }
         StartCoroutine(ShootProjectiles(timeBetweenProj, numProj));
     }
 
@@ -94,6 +95,7 @@ public class Weapon : MonoBehaviour
 
     public void Throw()
     {
+        transform.SetParent(null);
         ToggleSprite(false);
         // TODO: add velocity and collision to thrown weapon
     }
@@ -103,11 +105,25 @@ public class Weapon : MonoBehaviour
         ToggleSprite(true);
     }
 
+    public void TogglePickUpAble(bool isPickupAble)
+    {
+        if(isPickupAble)
+        {
+            heldSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
+        }
+        else
+        {
+            heldSprite.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
     protected void ToggleSprite(bool held)
     {
         heldSprite.SetActive(held);
         droppedSprite.SetActive(!held);
     }
+
+
 
     //Coroutine that shoots multiple projectiles in a row
     protected IEnumerator ShootProjectiles(float timeBetweenProj, int numProj)
@@ -123,10 +139,13 @@ public class Weapon : MonoBehaviour
     //Shoots projectile based ranged attack
     protected void ShootProjectile()
     {
+
         //Creates Offset and projectile direction
+        if (curr_ammo <= 0) { JamWeapon(); return; }
         Vector2 offset = new Vector2(Random.Range(-projSpread, projSpread), Random.Range(-projSpread, projSpread));
         Vector2 direction = this.transform.up.normalized;
         direction = (direction + offset).normalized * projSpeed;
+        direction = direction + rb.linearVelocity;
         ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
         curr_ammo -= 1;
     }

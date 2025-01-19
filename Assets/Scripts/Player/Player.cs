@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Unity.Jobs;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,12 +16,16 @@ public class Player : Singleton<Player>
     Vector2 moveVector;
     Vector2 cursorPos;
     [SerializeField] PlayerInput playerInput;
-    InputAction moveAction; InputAction attackAction; InputAction lookAction; InputAction interactAction; InputAction throwAction; InputAction previousWeaponAction; InputAction nextWeaponAction;
+    InputAction moveAction; InputAction attackAction; InputAction attackAllAction; InputAction interactAction; InputAction throwAction; InputAction previousWeaponAction; InputAction nextWeaponAction;
     Rigidbody2D rb;
 
     [SerializeField] List<Weapon> weaponList = new List<Weapon>();
     [SerializeField] int weaponIndex = 0;
     [SerializeField] float weaponRevolveRadius;
+    [SerializeField] List<Weapon> sameWeaponTypeList = new List<Weapon>();
+
+    [SerializeField] float pickupRange;
+    [SerializeField] LayerMask detectionLayers;
 
     void Initialize()
     {
@@ -31,8 +36,8 @@ public class Player : Singleton<Player>
     void Start()
     {
         moveAction = playerInput.actions["Move"];
-        lookAction = playerInput.actions["Look"];
         attackAction = playerInput.actions["Attack"];
+        attackAllAction = playerInput.actions["AttackAll"];
         throwAction = playerInput.actions["Throw"];
         interactAction = playerInput.actions["Interact"];
         previousWeaponAction = playerInput.actions["Previous"];
@@ -49,19 +54,19 @@ public class Player : Singleton<Player>
         float verticaldir = Mathf.Round(moveAction.ReadValue<Vector2>().y);
         moveVector = new Vector2(horizontaldir, verticaldir).normalized;
 
-        if (lookAction.WasPressedThisFrame())
-        {
-
-        }
-
         if (attackAction.WasPressedThisFrame())
         {
-            AttackWeapon();
+            AttackActiveWeapon();
+        }
+
+        if (attackAllAction.WasPressedThisFrame())
+        {
+            AttackAllWeapons();
         }
 
         if (throwAction.WasPressedThisFrame())
         {
-            ThrowCurrentWeapon();
+            ThowCurrentAndSimilarWeapons();
         }
 
         if (interactAction.WasPressedThisFrame())
@@ -90,17 +95,47 @@ public class Player : Singleton<Player>
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
 
     }
-    private void AttackWeapon()
+    private void AttackActiveWeapon()
     {
         weaponList[weaponIndex].Attack(true);
+        if(sameWeaponTypeList.Count > 0)
+        {
+            int newSameWeaponIndex = sameWeaponTypeList.IndexOf(weaponList[weaponIndex]) + 1;
+            if (newSameWeaponIndex >= sameWeaponTypeList.Count) newSameWeaponIndex = 0;
+            ChangeWeaponIndex(weaponList.IndexOf(sameWeaponTypeList[newSameWeaponIndex]));
+        }
     }
 
-    private void ThrowCurrentWeapon()
+    private void AttackAllWeapons()
     {
-        weaponList[weaponIndex].transform.SetParent(null);
-        weaponList[weaponIndex].Throw();
-        weaponList.Remove(weaponList[weaponIndex]);
-        ChangeWeaponIndex(weaponIndex);
+        foreach (Weapon loopWeapon in sameWeaponTypeList)
+        {
+            loopWeapon.Attack(true);
+        }
+
+    }
+
+    private void ThowCurrentAndSimilarWeapons()
+    {
+
+        foreach (Weapon loopWeapon in sameWeaponTypeList)
+        {
+            loopWeapon.Throw();
+        }
+
+        foreach (Weapon loopWeapon in sameWeaponTypeList)
+        {
+            weaponList.Remove(loopWeapon);
+        }
+        ChangeWeaponIndex(Mathf.RoundToInt(Random.Range(1,weaponList.Count)));
+    }
+
+    private void ThrowRandomWeapon()
+    {
+        int randomIndex = Mathf.RoundToInt(Random.Range(1, weaponList.Count));
+        weaponList[randomIndex].Throw();
+        weaponList.Remove(weaponList[randomIndex]);
+        if (randomIndex == weaponIndex) ChangeWeaponIndex(randomIndex);
     }
 
     private void ChangeWeaponIndex(int changeTo)
@@ -108,6 +143,32 @@ public class Player : Singleton<Player>
         weaponIndex = changeTo;
         if (weaponIndex < 0) weaponIndex = weaponList.Count - 1;
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
+        FindSameWeapon(weaponList[weaponIndex]);
+    }
+
+    private void FindSameWeapon(Weapon activeWeapon)
+    {
+        sameWeaponTypeList.Clear();
+        foreach (Weapon loopWeapon in weaponList)
+        {
+            if(loopWeapon.weaponName == activeWeapon.weaponName)
+            {
+                sameWeaponTypeList.Add(loopWeapon);
+            }
+        }
+    }
+
+    private void CheckForNearbyWeapons()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickupRange, detectionLayers);
+        Debug.DrawLine(transform.position, transform.position + Vector3.right * pickupRange, Color.white);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Weapon"))
+            {
+
+            }
+        }
     }
 
     private void CalculateWeaponCloud()
@@ -122,6 +183,8 @@ public class Player : Singleton<Player>
             // Update the position of the follower
             weaponList[i].setDestination = transform.position + offset;
         }
+
+        //Sets Active weapon to be centered in the cloud
         weaponList[weaponIndex].setDestination = transform.position;
     }
 
@@ -141,6 +204,7 @@ public class Player : Singleton<Player>
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle -90));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
+        //Rotates all weapons to align with the player
         foreach (Weapon loopWeapon in weaponList)
         {
             loopWeapon.transform.rotation = targetRotation;
