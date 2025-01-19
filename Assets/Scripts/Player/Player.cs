@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,7 @@ public class Player : Singleton<Player>
 
     [SerializeField] List<Weapon> weaponList = new List<Weapon>();
     [SerializeField] int weaponIndex = 0;
+    [SerializeField] float weaponRevolveRadius;
 
     void Initialize()
     {
@@ -38,6 +40,7 @@ public class Player : Singleton<Player>
         previousWeaponAction = playerInput.actions["Previous"];
         nextWeaponAction = playerInput.actions["Next"];
         rb = GetComponent<Rigidbody2D>();
+        CalculateWeaponCloud();
     }
 
     // Update is called once per frame
@@ -60,7 +63,7 @@ public class Player : Singleton<Player>
 
         if (throwAction.WasPressedThisFrame())
         {
-
+            ThrowCurrentWeapon();
         }
 
         if (interactAction.WasPressedThisFrame())
@@ -87,19 +90,42 @@ public class Player : Singleton<Player>
         actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, moveSpeed, Time.deltaTime * changeVelocitySpeed);
 
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
-        
-    }
 
+    }
     private void AttackWeapon()
     {
         weaponList[weaponIndex].Attack();
     }
 
+    private void ThrowCurrentWeapon()
+    {
+        weaponList[weaponIndex].transform.SetParent(null);
+        weaponList[weaponIndex].Throw();
+        weaponList.Remove(weaponList[weaponIndex]);
+        ChangeWeaponIndex(weaponIndex);
+    }
+
     private void ChangeWeaponIndex(int changeTo)
     {
         weaponIndex = changeTo;
-        if(weaponIndex < 0) weaponIndex = weaponList.Count - 1;
+        if (weaponIndex < 0) weaponIndex = weaponList.Count - 1;
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
+        CalculateWeaponCloud();
+    }
+
+    private void CalculateWeaponCloud()
+    {
+        float angleStep = 360f / weaponList.Count;
+        float angleOffset = 0;
+        for (int i = 0; i<weaponList.Count; i++)
+        {
+            // Calculate the position of the follower in world space
+            Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * weaponRevolveRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * weaponRevolveRadius, 0f);
+            angleOffset += angleStep;
+            // Update the position of the follower
+            weaponList[i].setDestination = transform.position + offset;
+        }
+        weaponList[weaponIndex].setDestination = transform.position;
     }
 
     private void RotateToMousePosition()

@@ -2,10 +2,5 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //NOTE THAT ANY UPDATE, START, OR SIMILARLY NAMED METHODS WILL COMPLETELY OVERRIDE BASE WEAPON CLASS METHODS
 }
