@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
 
         if (windUpTime > 0 || cooldownTime > 0)
         {
-
+            return;
         }
         if (weapon.range >= Vector3.Distance(this.transform.position, Player.Instance.transform.position)) {
             AttackPlayer();

@@ -49,6 +49,8 @@ public class Player : Singleton<Player>
         float verticaldir = Mathf.Round(moveAction.ReadValue<Vector2>().y);
         moveVector = new Vector2(horizontaldir, verticaldir).normalized;
 
+
+
         if (lookAction.WasPressedThisFrame())
         {
 
