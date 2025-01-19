@@ -92,7 +92,7 @@ public class Player : Singleton<Player>
     }
     private void AttackWeapon()
     {
-        //weaponList[weaponIndex].Attack();
+        weaponList[weaponIndex].Attack(true);
     }
 
     private void ThrowCurrentWeapon()
@@ -122,7 +122,7 @@ public class Player : Singleton<Player>
             // Update the position of the follower
             weaponList[i].setDestination = transform.position + offset;
         }
-        weaponList[weaponIndex].transform.position = transform.position;
+        weaponList[weaponIndex].setDestination = transform.position;
     }
 
     private void RotateToMousePosition()
