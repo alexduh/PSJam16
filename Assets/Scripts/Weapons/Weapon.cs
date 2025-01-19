@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] Transform weaponSpawnPoint;
     [SerializeField] protected float projSpeed;
     [SerializeField] protected float projLifeTime;
+    public bool friendlyFire; // used to determine if attacks should collide with enemies or player
 
     protected void Start()
     {
@@ -27,7 +28,7 @@ public class Weapon : MonoBehaviour
     {
 
     }
-    public void Attack()
+    public void Attack(bool friendly)
     {
         Debug.Log("This weapon is attacking: " + this.name);
         // if weapon is ranged, check if it has ammo remaining

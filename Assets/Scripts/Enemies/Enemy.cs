@@ -19,7 +19,18 @@ public class Enemy : MonoBehaviour
     void AttackPlayer()
     {
         weapon.AttackWindup();
-        weapon.Attack();
+        weapon.Attack(false);
+    }
+
+    void SetHP(float hp)
+    {
+        curr_health = hp;
+    }
+
+    void Death()
+    {
+        // TODO: add sounds and animation
+        Destroy(gameObject);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +43,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (curr_health <= 0)
+        {
+            Death();
+        }
+
         if (windUpTime > 0 || cooldownTime > 0)
         {
 

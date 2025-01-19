@@ -7,8 +7,6 @@ using UnityEngine.InputSystem;
 public class Player : Singleton<Player>
 {
 
-    //Player.Instance.Initialize();
-
     [SerializeField] float moveSpeed = 30f;
     [SerializeField] float changeVelocitySpeed;
     float actualSpeed;
@@ -60,7 +58,7 @@ public class Player : Singleton<Player>
 
         if (throwAction.WasPressedThisFrame())
         {
-
+            Throw();
         }
 
         if (interactAction.WasPressedThisFrame())
@@ -92,7 +90,13 @@ public class Player : Singleton<Player>
 
     private void AttackWeapon()
     {
-        weaponList[weaponIndex].Attack();
+        //weaponList[weaponIndex].Attack();
+    }
+
+    private void Throw()
+    {
+        weaponList.RemoveAt(weaponIndex);
+        // TODO: add velocity to weapon
     }
 
     private void ChangeWeaponIndex(int changeTo)
@@ -100,6 +104,8 @@ public class Player : Singleton<Player>
         weaponIndex = changeTo;
         if(weaponIndex < 0) weaponIndex = weaponList.Count - 1;
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
+        Debug.Log("weaponIdx = " + weaponIndex);
+        Debug.Log("weapon is: " + weaponList[weaponIndex]);
     }
 
     private void RotateToMousePosition()
