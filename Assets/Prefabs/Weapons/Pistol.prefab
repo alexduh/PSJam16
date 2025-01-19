@@ -228,7 +228,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   heldSprite: {fileID: 521353958388061972}
   droppedSprite: {fileID: 2481979596771893961}
-  movementSpeed: 1
+  movementSpeed: 5
   setDestination: {x: 0, y: 0}
   m_MovementSmoothing: 0.075
   ranged: 1

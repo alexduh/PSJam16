@@ -85,7 +85,7 @@ public class Player : Singleton<Player>
     private void FixedUpdate()
     {
         RotateToMousePosition();
-
+        CalculateWeaponCloud();
         //CALCULATE MOVE SPEED BASED ON SUM OF WEAPON WEIGHTS
         actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, moveSpeed, Time.deltaTime * changeVelocitySpeed);
 
@@ -110,7 +110,6 @@ public class Player : Singleton<Player>
         weaponIndex = changeTo;
         if (weaponIndex < 0) weaponIndex = weaponList.Count - 1;
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
-        CalculateWeaponCloud();
     }
 
     private void CalculateWeaponCloud()
@@ -125,7 +124,7 @@ public class Player : Singleton<Player>
             // Update the position of the follower
             weaponList[i].setDestination = transform.position + offset;
         }
-        weaponList[weaponIndex].setDestination = transform.position;
+        weaponList[weaponIndex].transform.position = transform.position;
     }
 
     private void RotateToMousePosition()
@@ -143,5 +142,10 @@ public class Player : Singleton<Player>
         float step = rotateSpeed * Time.deltaTime;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle -90));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+
+        foreach (Weapon loopWeapon in weaponList)
+        {
+            loopWeapon.transform.rotation = targetRotation;
+        }
     }
 }
