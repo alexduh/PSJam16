@@ -4,8 +4,8 @@ public class Pistol : Weapon
 {
     new void Start()
     {
-        /*
         base.Start();
+        /*
         MAX_AMMO = 12;
         projSpeed = 10;
         projLifeTime = .5f;
