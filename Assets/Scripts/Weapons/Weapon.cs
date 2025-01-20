@@ -42,13 +42,13 @@ public class Weapon : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    protected void Update()
     {
         //Controls attack Cooldown time. If attackCooldownTime <= 0, then this weapon can attack.
         if(attackCooldownTime >= 0) attackCooldownTime -= Time.deltaTime;
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         MoveToTarget();
     }
@@ -147,7 +147,8 @@ public class Weapon : MonoBehaviour
         direction = (direction + offset).normalized * projSpeed;
         direction = direction + rb.linearVelocity;
         ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
-        curr_ammo -= 1;
+        if (friendlyFire) // enemies will have infinite ammo
+            curr_ammo -= 1;
     }
 
     private void MoveToTarget()

@@ -16,10 +16,5 @@ public class Pistol : Weapon
         */
     }
 
-    new void Update()
-    {
-        
-    }
-
     //NOTE THAT ANY UPDATE, START, OR SIMILARLY NAMED METHODS WILL COMPLETELY OVERRIDE BASE WEAPON CLASS METHODS
 }

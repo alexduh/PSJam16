@@ -10,10 +10,16 @@ public class Enemy : MonoBehaviour
     public float windUpTime;
     public float cooldownTime;
 
-    void MoveAndLook() // move towards player and change orientation to face player if out of range
+    void Move() // move towards player
     {
-        rb.linearVelocity = (this.transform.position - Player.Instance.transform.position).normalized;
-        transform.LookAt(Player.Instance.transform);
+        rb.linearVelocity = (Player.Instance.transform.position - transform.position).normalized * MOVE_SPEED;
+    }
+
+    void Look() // change orientation to face player
+    {
+        Quaternion rotation = Quaternion.LookRotation(Player.Instance.transform.position - transform.position, transform.TransformDirection(Vector3.up));
+        transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+        weapon.setDestination = transform.position;
     }
 
     void AttackPlayer()
@@ -53,12 +59,14 @@ public class Enemy : MonoBehaviour
             return;
         }
         if (weapon.range >= Vector3.Distance(this.transform.position, Player.Instance.transform.position)) {
+            Look();
             AttackPlayer();
             // TODO: if in range, attack in current direction
         }
         else
         {
-            MoveAndLook();
+            Move();
+            Look();
         }
 
     }
