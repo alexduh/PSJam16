@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8575497947876996128}
   - component: {fileID: 4454946859413669961}
-  m_Layer: 0
+  - component: {fileID: 4568067715994204659}
+  m_Layer: 7
   m_Name: Pistol Held Sprile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,6 +88,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &4568067715994204659
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521353958388061972}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.63, y: 2.71}
+    newSize: {x: 0.63, y: 2.71}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.63, y: 2.71}
+  m_EdgeRadius: 0
 --- !u!1 &2481979596771893961
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +144,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5720045185336303454}
   - component: {fileID: 1720560781763386805}
-  m_Layer: 0
+  - component: {fileID: 4780654230091498750}
+  m_Layer: 7
   m_Name: Pistol Dropped Sprile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,6 +222,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &4780654230091498750
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481979596771893961}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.64, y: 2.76}
+    newSize: {x: 0.63, y: 2.71}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.64, y: 2.76}
+  m_EdgeRadius: 0
 --- !u!1 &6148906011204538338
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +279,7 @@ GameObject:
   - component: {fileID: 2963170524910639451}
   - component: {fileID: 7887272583675976115}
   - component: {fileID: 5629430062182906498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,13 +316,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75d7b6e8a7376749b3f68a887f9dad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Pistol
   FIRE_RATE: 1
   DAMAGE: 10
   weight: 1
   rb: {fileID: 0}
   heldSprite: {fileID: 521353958388061972}
   droppedSprite: {fileID: 2481979596771893961}
-  movementSpeed: 5
+  movementSpeed: 4
   setDestination: {x: 0, y: 0}
   m_MovementSmoothing: 0.075
   ranged: 1
@@ -242,6 +337,7 @@ MonoBehaviour:
   projSpread: 0.1
   numProj: 1
   timeBetweenProj: 1
+  friendlyFire: 0
 --- !u!50 &5629430062182906498
 Rigidbody2D:
   serializedVersion: 5
@@ -278,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5161270419080218340}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Projectile Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
