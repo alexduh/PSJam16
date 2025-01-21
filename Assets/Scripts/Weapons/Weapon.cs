@@ -127,6 +127,7 @@ public class Weapon : MonoBehaviour
         TogglePickUpAble(false);
         friendlyFire = true;
         weaponCollider.enabled = false;
+        tag = "PlayerOwned";
     }
 
     //Toggles the sprite to be highlighted yellow. Called when the player is near the sprite

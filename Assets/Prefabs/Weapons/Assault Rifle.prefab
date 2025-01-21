@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4633243943521966976}
   - component: {fileID: 4734645373302936244}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Assault Rifle Held Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7226469125899072421}
   - component: {fileID: 2726306043112670385}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Assault Rifle Dropped Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3560299933088196222}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Projectile Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6853741931149192652}
   - component: {fileID: 7233564635613026761}
   - component: {fileID: 4879628471079266324}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Assault Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

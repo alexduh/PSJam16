@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4863331858922283613}
   - component: {fileID: 1868127201750955851}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Sword Dropped Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 965682232649182473}
   - component: {fileID: 369068250631560265}
   - component: {fileID: 7739850985582426825}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8815994116165869158}
   - component: {fileID: 1837285506820005760}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Sword Held Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -69,6 +69,9 @@ public class Projectile : MonoBehaviour
         }
         else
         {
+            /*if (other.gameObject.layer == "Player" && tag == "EnemyOwned")
+                Player.Instance.TakeDamage();*/
+
             DeactivateProjectile();
         }
     }

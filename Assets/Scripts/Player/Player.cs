@@ -33,12 +33,13 @@ public class Player : Singleton<Player>
 
     void Initialize()
     {
-
+        weaponList = new List<Weapon>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Initialize(); // TODO: move this to StartGame() in GameManager!
         moveAction = playerInput.actions["Move"];
         attackAction = playerInput.actions["Attack"];
         attackAllAction = playerInput.actions["AttackAll"];
@@ -107,6 +108,21 @@ public class Player : Singleton<Player>
 
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
 
+    }
+
+    private void Death()
+    {
+        // TODO: player death animation, sounds
+
+        // TODO: GameManager should handle Game Over!
+    }
+
+    public void TakeDamage()
+    {
+        if (weaponList.Count >= 2)
+            ThrowRandomWeapon(); // TODO: this shouldn't be a random weapon! drop active weapon!
+        else
+            Death();
     }
 
     //Fires the active weapon, then changes to a similar weapon if applicable.

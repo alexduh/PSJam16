@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8575497947876996128}
   - component: {fileID: 4454946859413669961}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Pistol Held Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5720045185336303454}
   - component: {fileID: 1720560781763386805}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Pistol Dropped Sprile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 7887272583675976115}
   - component: {fileID: 5629430062182906498}
   - component: {fileID: 8432201502661652049}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5161270419080218340}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Projectile Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
