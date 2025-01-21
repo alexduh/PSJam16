@@ -15,6 +15,8 @@ public class Player : Singleton<Player>
     [SerializeField] float moveForce = 400f;
     [SerializeField] float changeVelocitySpeed;
     float actualSpeed;
+    private float orbitOffset = 0f; // cycles upwards from 0 to 360; allows weapon cloud objects to orbit
+    [SerializeField] private float orbitSpeed = 60f;
     [SerializeField] float rotateSpeed = 10f;
     Vector2 moveVector;
     Vector2 cursorPos;
@@ -30,6 +32,7 @@ public class Player : Singleton<Player>
 
     [SerializeField] float pickupRange;
     [SerializeField] LayerMask weaponDetectionLayers;
+
 
     void Initialize()
     {
@@ -98,7 +101,9 @@ public class Player : Singleton<Player>
         //CALCULATE MOVE SPEED BASED ON SUM OF WEAPON WEIGHTS
         float sumWeights = 0.1f;
         float targetSpeed;
-        foreach(Weapon loopWeapon in weaponList)
+        orbitOffset += orbitSpeed * Time.fixedDeltaTime;
+        orbitOffset = orbitOffset % 360;
+        foreach (Weapon loopWeapon in weaponList)
         {
             sumWeights += loopWeapon.weight;
         }
@@ -261,7 +266,7 @@ public class Player : Singleton<Player>
         float newWeaponRadius = weaponRevolveRadius;
         //Creates a weapon cloud depending on the number of weapons weapon list
         angleStep = 360f / Mathf.Clamp(weaponList.Count , 0, 6);
-        angleOffset = 0;
+        angleOffset = orbitOffset;
         for (int i = 0; i < Mathf.Clamp(weaponList.Count,0,7); i++)
         {
             // Calculate the position of the follower in world space
@@ -274,7 +279,7 @@ public class Player : Singleton<Player>
         if (weaponList.Count > 7)
         {
             angleStep = 360f / Mathf.Clamp(weaponList.Count - 7 , 0, 12);
-            angleOffset = 0;
+            angleOffset = orbitOffset;
             newWeaponRadius = newWeaponRadius * 1.5f;
             for (int i = 7; i < Mathf.Clamp(weaponList.Count, 7, 19); i++)
             {
@@ -289,13 +294,13 @@ public class Player : Singleton<Player>
         if(weaponList.Count > 19)
         {
             angleStep = 360f / (weaponList.Count - 19);
-            angleOffset = 0;
+            angleOffset = orbitOffset;
             newWeaponRadius = newWeaponRadius * 1.5f;
             for (int i = 19; i < weaponList.Count; i++)
             {
                 // Calculate the position of the follower in world space
                 Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, 0f);
-                angleOffset += angleStep;
+                angleOffset += angleStep ;
                 // Update the position of the follower
                 weaponList[i].setDestination = transform.position + offset;
             }
