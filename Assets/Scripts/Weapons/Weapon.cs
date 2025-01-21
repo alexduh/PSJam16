@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float FIRE_RATE;
     protected float attackCooldownTime;
     [SerializeField] protected float DAMAGE;
-    [SerializeField] protected float weight;
+    public float weight;
     protected Rigidbody2D rb;
     
 
@@ -173,8 +173,11 @@ public class Weapon : MonoBehaviour
         direction = (direction + offset).normalized * projSpeed;
         direction = direction + rb.linearVelocity;
         ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
-        if (friendlyFire) // enemies will have infinite ammo
+        if (friendlyFire)// enemies will have infinite ammo
+        {
             curr_ammo -= 1;
+            if(curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
+        } 
     }
 
     //Helper class that smoothly moves the weapon to its target position

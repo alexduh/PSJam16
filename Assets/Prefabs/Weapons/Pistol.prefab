@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  FIRE_RATE: 1
+  FIRE_RATE: 0.5
   DAMAGE: 10
   weight: 1
   heldSprite: {fileID: 521353958388061972}

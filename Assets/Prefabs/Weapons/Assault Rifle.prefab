@@ -284,7 +284,7 @@ MonoBehaviour:
   weaponName: Assault Weapon
   FIRE_RATE: 1
   DAMAGE: 1
-  weight: 0
+  weight: 3
   heldSprite: {fileID: 3579343730778955612}
   droppedSprite: {fileID: 4026192794518610942}
   setDestination: {x: 0, y: 0}
