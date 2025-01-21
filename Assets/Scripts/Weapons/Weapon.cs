@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float FIRE_RATE;
     protected float attackCooldownTime;
     [SerializeField] protected float DAMAGE;
-    [SerializeField] protected float weight;
+    public float weight;
     protected Rigidbody2D rb;
     
 
@@ -26,7 +26,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected bool ranged;
     public float range;
     [SerializeField] protected float MAX_AMMO;
-    [SerializeField] protected float curr_ammo;
+
+
+    public float curr_ammo; //Made public so player can detect if the weapon is empty
     [SerializeField] GameObject projectile;
     [SerializeField] Transform weaponSpawnPoint;
     [SerializeField] protected float projSpeed;
@@ -34,12 +36,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float projSpread;
     [SerializeField] protected int numProj;
     [SerializeField] protected float timeBetweenProj;
+    Collider2D weaponCollider;
     public bool friendlyFire; // used to determine if attacks should collide with enemies or player
 
     protected void Start()
     {
+        setDestination = transform.position;
         curr_ammo = MAX_AMMO;
         rb = GetComponent<Rigidbody2D>();
+        weaponCollider = GetComponent<Collider2D>();
     }
 
     protected void Update()
@@ -52,6 +57,9 @@ public class Weapon : MonoBehaviour
     {
         MoveToTarget();
     }
+
+    //Attack method for both enemies and the player, differentinated by the friendly bool. Checks for cool down time, and seperates
+    //Attacks based on range or melee
     public void Attack(bool friendly)
     {
         if (attackCooldownTime > 0) return;
@@ -82,41 +90,59 @@ public class Weapon : MonoBehaviour
         //TODO: Melee Attack
     }
 
+    //Called by enemies when an attack is about to be executed.
     public void AttackWindup()
     {
 
     }
 
+    //Called when ammo runs out
     public void JamWeapon()
     {
         Debug.Log("Weapon Jammed");
+
+        //If the weapon is attatched to a player, then the weapon will be thrown by the player. There is extra code to remove
+        //The weapon from the weapon list, along with a back reference to the throw method in this script
+        if (friendlyFire)
+        {
+            FindAnyObjectByType<Player>().ThrowWeapon(this);
+        }
         // TODO: play sound effect (animation?)
     }
 
+    //Behavior for when the player droppes/throws a weapon
     public void Throw()
     {
         transform.SetParent(null);
         ToggleSprite(false);
+        weaponCollider.enabled = true;
         // TODO: add velocity and collision to thrown weapon
     }
 
+
+    //Weapon side behavior for behing picked up by the player. Toggles to the held sprite and sets friendly fire to true;
     public void Pickup()
     {
         ToggleSprite(true);
+        TogglePickUpAble(false);
+        friendlyFire = true;
+        weaponCollider.enabled = false;
     }
 
+    //Toggles the sprite to be highlighted yellow. Called when the player is near the sprite
     public void TogglePickUpAble(bool isPickupAble)
     {
         if(isPickupAble)
         {
-            heldSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
+            droppedSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
         }
         else
         {
-            heldSprite.GetComponent<SpriteRenderer>().color = Color.white;
+            droppedSprite.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
+    //Toggles the sprite between active and held sprites. Placeholder for animation
     protected void ToggleSprite(bool held)
     {
         heldSprite.SetActive(held);
@@ -147,10 +173,14 @@ public class Weapon : MonoBehaviour
         direction = (direction + offset).normalized * projSpeed;
         direction = direction + rb.linearVelocity;
         ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
-        if (friendlyFire) // enemies will have infinite ammo
+        if (friendlyFire)// enemies will have infinite ammo
+        {
             curr_ammo -= 1;
+            if(curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
+        } 
     }
 
+    //Helper class that smoothly moves the weapon to its target position
     private void MoveToTarget()
     {
         Vector2 unNormalized = setDestination - new Vector2(transform.position.x, transform.position.y);

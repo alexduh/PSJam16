@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Unity.Jobs;
@@ -9,7 +10,9 @@ using UnityEngine.InputSystem;
 public class Player : Singleton<Player>
 {
 
-    [SerializeField] float moveSpeed = 30f;
+    [SerializeField] float maxMoveSpeed = 60f;
+    [SerializeField] float minMoveSpeed = 5f;
+    [SerializeField] float moveForce = 400f;
     [SerializeField] float changeVelocitySpeed;
     float actualSpeed;
     [SerializeField] float rotateSpeed = 10f;
@@ -19,13 +22,14 @@ public class Player : Singleton<Player>
     InputAction moveAction; InputAction attackAction; InputAction attackAllAction; InputAction interactAction; InputAction throwAction; InputAction previousWeaponAction; InputAction nextWeaponAction;
     Rigidbody2D rb;
 
-    [SerializeField] List<Weapon> weaponList = new List<Weapon>();
-    [SerializeField] int weaponIndex = 0;
+    [SerializeField] List<Weapon> weaponList = new List<Weapon>(); //This is the core of the class. Contains a list of all weapons avaliable to the player
+    [SerializeField] int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
     [SerializeField] float weaponRevolveRadius;
-    [SerializeField] List<Weapon> sameWeaponTypeList = new List<Weapon>();
+    [SerializeField] List<Weapon> sameWeaponTypeList = new List<Weapon>(); //List of weapons that are the same as the active weapon. Recalcalculated whenever the active weapon changes
+    [SerializeField] List<Weapon> nearbyWeaponsList = new List<Weapon>(); //List of weapons that are nearby
 
     [SerializeField] float pickupRange;
-    [SerializeField] LayerMask detectionLayers;
+    [SerializeField] LayerMask weaponDetectionLayers;
 
     void Initialize()
     {
@@ -71,7 +75,7 @@ public class Player : Singleton<Player>
 
         if (interactAction.WasPressedThisFrame())
         {
-
+            PickUpNearbyWeapons();
         }
 
         if (previousWeaponAction.WasPerformedThisFrame())
@@ -88,13 +92,24 @@ public class Player : Singleton<Player>
     private void FixedUpdate()
     {
         RotateToMousePosition();
+        CheckForNearbyWeapons();
         CalculateWeaponCloud();
         //CALCULATE MOVE SPEED BASED ON SUM OF WEAPON WEIGHTS
-        actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, moveSpeed, Time.deltaTime * changeVelocitySpeed);
+        float sumWeights = 0.1f;
+        float targetSpeed;
+        foreach(Weapon loopWeapon in weaponList)
+        {
+            sumWeights += loopWeapon.weight;
+        }
+        targetSpeed = Mathf.Clamp(moveForce / sumWeights,minMoveSpeed,maxMoveSpeed);
+        Debug.Log(targetSpeed);
+        actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, targetSpeed, Time.deltaTime * changeVelocitySpeed);
 
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
 
     }
+
+    //Fires the active weapon, then changes to a similar weapon if applicable.
     private void AttackActiveWeapon()
     {
         weaponList[weaponIndex].Attack(true);
@@ -106,6 +121,7 @@ public class Player : Singleton<Player>
         }
     }
 
+    //Calls the attack function on all weapons that are similar to the active weapon
     private void AttackAllWeapons()
     {
         foreach (Weapon loopWeapon in sameWeaponTypeList)
@@ -115,9 +131,10 @@ public class Player : Singleton<Player>
 
     }
 
+    //Throws the active and all similar weapons to the active weapon. Called with the throw action
     private void ThowCurrentAndSimilarWeapons()
     {
-
+        if (weaponIndex == 0) return;
         foreach (Weapon loopWeapon in sameWeaponTypeList)
         {
             loopWeapon.Throw();
@@ -130,6 +147,7 @@ public class Player : Singleton<Player>
         ChangeWeaponIndex(Mathf.RoundToInt(Random.Range(1,weaponList.Count)));
     }
 
+    //Removes a weapon from the weapon list at random. Called when player is damaged
     private void ThrowRandomWeapon()
     {
         int randomIndex = Mathf.RoundToInt(Random.Range(1, weaponList.Count));
@@ -138,6 +156,26 @@ public class Player : Singleton<Player>
         if (randomIndex == weaponIndex) ChangeWeaponIndex(randomIndex);
     }
 
+    //Removes a specific weapon from list. Called when a weapon runs out of ammo
+   public void ThrowWeapon(Weapon weaponToThrow)
+    {
+        StartCoroutine(ThrowWeaponAfter(weaponToThrow));
+    }
+
+    //This is to avoid list changes, causing errors. 
+    public IEnumerator ThrowWeaponAfter(Weapon weaponToThrow)
+    {
+        yield return new WaitForEndOfFrame();
+        weaponToThrow.Throw();
+        weaponList.Remove(weaponToThrow);
+        if (sameWeaponTypeList.Contains(weaponToThrow))
+        {
+            weaponList.Remove(weaponToThrow);
+        }
+        ChangeWeaponIndex(weaponIndex);
+    }
+
+    //Changes the Weapon Index and and calls FindSameWeapon
     private void ChangeWeaponIndex(int changeTo)
     {
         weaponIndex = changeTo;
@@ -146,6 +184,7 @@ public class Player : Singleton<Player>
         FindSameWeapon(weaponList[weaponIndex]);
     }
 
+    //Populates the sameWeaponTypeList with a list of weapons that have the same name as the active weapon
     private void FindSameWeapon(Weapon activeWeapon)
     {
         sameWeaponTypeList.Clear();
@@ -158,32 +197,94 @@ public class Player : Singleton<Player>
         }
     }
 
+
+    //Checks for nearby weapons through a physics overlap circle, only looking at the weapon layer. Adds nearby weapons to list if 
+    //There is still ammo inside. 
     private void CheckForNearbyWeapons()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickupRange, detectionLayers);
+        foreach(Weapon oldNearbyWeapon in nearbyWeaponsList)
+        {
+            oldNearbyWeapon.TogglePickUpAble(false);
+        }
+        nearbyWeaponsList.Clear();
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickupRange, weaponDetectionLayers);
         Debug.DrawLine(transform.position, transform.position + Vector3.right * pickupRange, Color.white);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Weapon"))
+            Debug.Log(collider.name);
+            if(collider.TryGetComponent<Weapon>(out Weapon potentialWeapon))
             {
-
+                if(potentialWeapon.curr_ammo > 0)
+                {
+                    potentialWeapon.TogglePickUpAble(true);
+                    nearbyWeaponsList.Add(potentialWeapon);
+                }
             }
         }
     }
 
+    //Picks up all nearby weapons. Updates same weapon list. 
+    private void PickUpNearbyWeapons()
+    {
+        foreach (Weapon nearbyWeapon in nearbyWeaponsList)
+        {
+            nearbyWeapon.TogglePickUpAble(false);
+            nearbyWeapon.Pickup();
+            weaponList.Add(nearbyWeapon);
+        }
+        FindSameWeapon(weaponList[weaponIndex]);
+        nearbyWeaponsList.Clear();
+    }
+
+    //Creates a circle around the player/active weapon at even intervals determined by the number of weapons
     private void CalculateWeaponCloud()
     {
-        float angleStep = 360f / weaponList.Count;
+        float angleStep = 0;
         float angleOffset = 0;
-        for (int i = 0; i<weaponList.Count; i++)
+        float newWeaponRadius = weaponRevolveRadius;
+        //Creates a weapon cloud depending on the number of weapons weapon list
+        angleStep = 360f / Mathf.Clamp(weaponList.Count , 0, 6);
+        angleOffset = 0;
+        for (int i = 0; i < Mathf.Clamp(weaponList.Count,0,7); i++)
         {
             // Calculate the position of the follower in world space
-            Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * weaponRevolveRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * weaponRevolveRadius, 0f);
+            Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, 0f);
             angleOffset += angleStep;
             // Update the position of the follower
             weaponList[i].setDestination = transform.position + offset;
         }
 
+        if (weaponList.Count > 7)
+        {
+            angleStep = 360f / Mathf.Clamp(weaponList.Count - 7 , 0, 12);
+            angleOffset = 0;
+            newWeaponRadius = newWeaponRadius * 1.5f;
+            for (int i = 7; i < Mathf.Clamp(weaponList.Count, 7, 19); i++)
+            {
+                // Calculate the position of the follower in world space
+                Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, 0f);
+                angleOffset += angleStep;
+                // Update the position of the follower
+                weaponList[i].setDestination = transform.position + offset;
+            }
+        }
+        
+        if(weaponList.Count > 19)
+        {
+            angleStep = 360f / (weaponList.Count - 19);
+            angleOffset = 0;
+            newWeaponRadius = newWeaponRadius * 1.5f;
+            for (int i = 19; i < weaponList.Count; i++)
+            {
+                // Calculate the position of the follower in world space
+                Vector3 offset = new Vector3(Mathf.Cos(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, Mathf.Sin(angleOffset * Mathf.Deg2Rad) * newWeaponRadius, 0f);
+                angleOffset += angleStep;
+                // Update the position of the follower
+                weaponList[i].setDestination = transform.position + offset;
+            }
+        }
+        
         //Sets Active weapon to be centered in the cloud
         weaponList[weaponIndex].setDestination = transform.position;
     }
@@ -202,12 +303,12 @@ public class Player : Singleton<Player>
         // Smoothly rotate the player towards the mouse position
         float step = rotateSpeed * Time.deltaTime;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle -90));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
 
         //Rotates all weapons to align with the player
         foreach (Weapon loopWeapon in weaponList)
         {
-            loopWeapon.transform.rotation = targetRotation;
+            loopWeapon.transform.rotation = Quaternion.RotateTowards(loopWeapon.transform.rotation, targetRotation, step);
         }
     }
 }

@@ -10,7 +10,7 @@ public class ObjectPool : SingletonPersistent<ObjectPool>
 
     [SerializeField] GameObject[] pooledObjectPrefabs;
 
-    // Start is called before the first frame update
+    // Generates X number of objects based on poolAmount, corresponding with pooledObjectPrefabs
     void Start()
     {
         pooledObjects = new List<GameObject>[pooledObjectPrefabs.Length];
@@ -27,6 +27,8 @@ public class ObjectPool : SingletonPersistent<ObjectPool>
             }
         }
     }
+
+    //Called via ObjectPool.Instance.GetPooledObject(obj). Sets an object active, and creates a new one if there are none avaliable
     public GameObject GetPooledObject(GameObject targetObject)
     {
         for (int i = 0; i < pooledObjectPrefabs.Length; i++)
