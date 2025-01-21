@@ -41,6 +41,7 @@ public class Weapon : MonoBehaviour
 
     protected void Start()
     {
+        setDestination = transform.position;
         curr_ammo = MAX_AMMO;
         rb = GetComponent<Rigidbody2D>();
         weaponCollider = GetComponent<Collider2D>();
@@ -133,11 +134,11 @@ public class Weapon : MonoBehaviour
     {
         if(isPickupAble)
         {
-            heldSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
+            droppedSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
         }
         else
         {
-            heldSprite.GetComponent<SpriteRenderer>().color = Color.white;
+            droppedSprite.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
