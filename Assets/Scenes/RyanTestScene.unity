@@ -322,6 +322,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4879628471079266324, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233564635613026761, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8692641983435551135, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
       propertyPath: m_Name
       value: Assault Rifle (1)
@@ -615,6 +623,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &540701889
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 521353958388061972, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2481979596771893961, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.6873646
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.0391726
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6148906011204538338, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Name
+      value: Pistol
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
 --- !u!4 &724727180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2963170524910639451, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
@@ -1023,6 +1096,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4879628471079266324, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233564635613026761, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8692641983435551135, guid: 95a8fdf665051024e87ab21d755f040f, type: 3}
       propertyPath: m_Name
       value: Assault Rifle
@@ -1116,6 +1197,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7887272583675976115, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432201502661652049, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1149,10 +1238,11 @@ MonoBehaviour:
   weaponIndex: 0
   weaponRevolveRadius: 2
   sameWeaponTypeList: []
-  pickupRange: 0
-  detectionLayers:
+  nearbyWeaponsList: []
+  pickupRange: 3
+  weaponDetectionLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!1 &4474250902187395071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,9 +1311,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4780654230091498750, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6148906011204538338, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
       propertyPath: m_Name
       value: Pistol 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887272583675976115, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432201502661652049, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1329,6 +1431,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6407475877288965538}
     m_Modifications:
+    - target: {fileID: 965682232649182473, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6674062466672243208, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
       propertyPath: m_Name
       value: Sword
@@ -1371,6 +1477,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7666437362575905567, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739850985582426825, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1429,6 +1539,14 @@ PrefabInstance:
     - target: {fileID: 6148906011204538338, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
       propertyPath: m_Name
       value: Pistol 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887272583675976115, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432201502661652049, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1575,6 +1693,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7887272583675976115, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432201502661652049, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1703,6 +1829,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 7887272583675976115, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: friendlyFire
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432201502661652049, guid: 9c20869a09aab194d93c916872cad41f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1773,3 +1907,4 @@ SceneRoots:
   - {fileID: 490831079}
   - {fileID: 380530388}
   - {fileID: 6670858506999213755}
+  - {fileID: 540701889}
