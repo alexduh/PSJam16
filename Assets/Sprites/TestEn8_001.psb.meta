@@ -1193,7 +1193,7 @@ ScriptedImporter:
     - name: bone_6
       guid: 5baf06b64a6f7478f9b31d7e12a770a6
       position: {x: 139.80733, y: 0.0014592129, z: 0}
-      rotation: {x: 0, y: 0, z: -0.13400453, w: 0.9909808}
+      rotation: {x: 0, y: 0, z: -0.13400453, w: 0.99098074}
       length: 122.7793
       parentId: 0
       color:
@@ -1519,7 +1519,7 @@ ScriptedImporter:
     - name: bone_6
       guid: 5baf06b64a6f7478f9b31d7e12a770a6
       position: {x: 139.80731, y: 0.0014665854, z: 0}
-      rotation: {x: 0, y: 0, z: -0.13400453, w: 0.9909808}
+      rotation: {x: 0, y: 0, z: -0.13400453, w: 0.99098074}
       length: 122.7793
       parentId: 0
       color:
@@ -2554,7 +2554,7 @@ ScriptedImporter:
     - name: bone_6
       guid: 5baf06b64a6f7478f9b31d7e12a770a6
       position: {x: 139.80728, y: 0.0014560315, z: 0}
-      rotation: {x: 0, y: 0, z: -0.13400453, w: 0.9909808}
+      rotation: {x: 0, y: 0, z: -0.13400452, w: 0.99098074}
       length: 122.77928
       parentId: 4
       color:
@@ -2644,13 +2644,13 @@ ScriptedImporter:
       order: 0
     dimension: {x: 0, y: 0}
     characterGroups: []
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.21641253}
     boneReadOnly: 0
   platformSettings: []
   mosaicLayers: 1
   characterMode: 1
-  documentPivot: {x: 0.5, y: 0}
-  documentAlignment: 7
+  documentPivot: {x: 0.5, y: 0.21641253}
+  documentAlignment: 9
   importHiddenLayers: 0
   layerMappingOption: 2
   generatePhysicsShape: 0
