@@ -69,8 +69,10 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            /*if (other.gameObject.layer == "Player" && tag == "EnemyOwned")
-                Player.Instance.TakeDamage();*/
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && tag == "EnemyOwned")
+                Player.Instance.TakeDamage();
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && tag == "PlayerOwned")
+                other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
 
             DeactivateProjectile();
         }

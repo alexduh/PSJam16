@@ -39,6 +39,11 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void TakeDamage(float damage)
+    {
+
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
