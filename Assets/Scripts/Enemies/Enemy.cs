@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D rb;
     public float windUpTime;
     public float cooldownTime;
+    [SerializeField] float attackLeeway = 1f; // How much closer enemies will get than their max range
     [SerializeField] Transform primaryEffector; // IK effector
     [SerializeField] Transform rig; // IK rig
     [SerializeField] Transform headRig; // IK head
@@ -26,27 +27,27 @@ public class Enemy : MonoBehaviour
         weaponOffset = rig.transform.InverseTransformPoint(primaryEffector.position);
     }
 
-    void Move() // move towards player
+    void Move(float magnitude = 1f) // move towards player
     {
-        Vector3 direction = Player.Instance.transform.position - weapon.transform.position;
-        float angle = Mathf.Atan(direction.y / direction.x);
+        Vector3 direction = Player.Instance.transform.position - weapon.transform.position * magnitude;
 
+        float angle = Mathf.Atan(direction.y / direction.x) * Mathf.Rad2Deg;
+        if (direction.y < 0) angle -= 180;
+        else angle += 180;
+        if (direction.x < 0) angle -= 90;
+        else angle += 90; // help me
 
-        var destination = moveTowardsPerimeter(Player.Instance.transform.position, weapon.range, angle);
-
-
+        var destination = moveTowardsPerimeter(Player.Instance.transform.position, weapon.range - attackLeeway, angle);
         weapon.setDestination = destination;
-
-
 
         rb.linearVelocity = Vector3.SmoothDamp(rb.linearVelocity, (destination - transform.position) * MOVE_SPEED, ref m_Velocity, m_MovementSmoothing);
 
     }
 
     // move the enemy towards whatever point is closest on an circular perimeter around the player
-    Vector3 moveTowardsPerimeter(Vector3 center, float radius, float angleInDegrees)
+    Vector3 moveTowardsPerimeter(Vector3 center, float radius, float angle)
     {
-        float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
+        float angleInRadians = angle * Mathf.Deg2Rad;
         float x = center.x + radius * Mathf.Cos(angleInRadians);
         float y = center.y + radius * Mathf.Sin(angleInRadians);
         return new Vector3(x, y, center.z);
@@ -102,16 +103,13 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        if (weapon.range >= Vector3.Distance(transform.position, Player.Instance.transform.position)) {
+
+        if (weapon.range >= Vector3.Distance(Player.Instance.transform.position, weapon.transform.position))
+        {
             AttackPlayer();
-            weapon.setDestination = transform.position + weaponOffset;
-            rb.linearVelocity = Vector2.zero;
+
             // TODO: if in range, attack in current direction
         }
-        else
-        {
-            Move();
-        }
-
+        else Move();
     }
 }

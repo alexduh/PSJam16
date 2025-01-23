@@ -265,7 +265,7 @@ public class Player : Singleton<Player>
         float angleOffset = 0;
         float newWeaponRadius = weaponRevolveRadius;
         //Creates a weapon cloud depending on the number of weapons weapon list
-        angleStep = 360f / Mathf.Clamp(weaponList.Count , 0, 6);
+        angleStep = 360f / Mathf.Clamp(weaponList.Count , 0, 7);
         angleOffset = orbitOffset;
         for (int i = 0; i < Mathf.Clamp(weaponList.Count,0,7); i++)
         {
