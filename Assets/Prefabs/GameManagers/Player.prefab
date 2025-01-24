@@ -170,6 +170,7 @@ MonoBehaviour:
   weight: 0
   heldSprite: {fileID: 0}
   droppedSprite: {fileID: 0}
+  movementSpeed: 4
   setDestination: {x: 0, y: 0}
   ranged: 0
   range: 0
@@ -290,6 +291,7 @@ MonoBehaviour:
   minMoveSpeed: 10
   moveForce: 350
   changeVelocitySpeed: 1
+  orbitSpeed: 60
   rotateSpeed: 300
   playerInput: {fileID: 3518273391631361310}
   weaponList:
@@ -308,7 +310,7 @@ MonoBehaviour:
   pickupRange: 4
   weaponDetectionLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
 --- !u!114 &3518273391631361310
 MonoBehaviour:
   m_ObjectHideFlags: 0
