@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5900747555884359866, guid: 96541397989594541835804edb233b7e, type: 3}
+  m_Sprite: {fileID: 4759681563048594646, guid: 9678e51a50eba474fbf30885058b3d3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,7 +163,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4854829337826818713, guid: 96541397989594541835804edb233b7e, type: 3}
+  m_Sprite: {fileID: -414082001202151941, guid: 9678e51a50eba474fbf30885058b3d3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -229,6 +229,7 @@ MonoBehaviour:
   weight: 1
   heldSprite: {fileID: 521353958388061972}
   droppedSprite: {fileID: 2481979596771893961}
+  movementSpeed: 4
   setDestination: {x: 0, y: 0}
   ranged: 1
   range: 50

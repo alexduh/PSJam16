@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
     //Variables related to visuals
     [SerializeField] protected GameObject heldSprite;
     [SerializeField] protected GameObject droppedSprite;
-    protected float movementSpeed = 4f;
+    [SerializeField] float movementSpeed = 4f;
     public Vector2 setDestination;
     private Vector3 m_Velocity = Vector3.zero;
     private float m_MovementSmoothing = .075f;  // How much to smooth out the movement
@@ -68,7 +68,7 @@ public class Weapon : MonoBehaviour
 
         if (ranged)
         {
-            RangedAttack();
+            RangedAttack(friendly);
         }
         else
         {
@@ -78,9 +78,9 @@ public class Weapon : MonoBehaviour
 
     //Method Holder for Ranged Attacks. This is to keep basic functionality (Attack cooldowns) standard, but seperate ranged vs melee
     //This allows children classes to modifiy ranged behavior without messing with basic attack behavior
-    protected void RangedAttack()
+    protected void RangedAttack(bool friendly)
     {
-        StartCoroutine(ShootProjectiles(timeBetweenProj, numProj));
+        StartCoroutine(ShootProjectiles(timeBetweenProj, numProj, friendly));
     }
 
     //Method Holder for Melee Attacks. This is to keep basic functionality (Attack cooldowns) standard, but seperate ranged vs melee
@@ -116,6 +116,7 @@ public class Weapon : MonoBehaviour
         transform.SetParent(null);
         ToggleSprite(false);
         weaponCollider.enabled = true;
+        tag = "PlayerOwned"; // <-- this is a stopgap to allow thrown weapons to hurt enemy, however they should lose the tag once the throw is 'over'.
         // TODO: add velocity and collision to thrown weapon
     }
 
@@ -127,7 +128,6 @@ public class Weapon : MonoBehaviour
         TogglePickUpAble(false);
         friendlyFire = true;
         weaponCollider.enabled = false;
-        tag = "PlayerOwned";
     }
 
     //Toggles the sprite to be highlighted yellow. Called when the player is near the sprite
@@ -153,18 +153,18 @@ public class Weapon : MonoBehaviour
 
 
     //Coroutine that shoots multiple projectiles in a row
-    protected IEnumerator ShootProjectiles(float timeBetweenProj, int numProj)
+    protected IEnumerator ShootProjectiles(float timeBetweenProj, int numProj, bool friendly)
     {
         for (int i = 0; i < numProj; i++)
         {
-            ShootProjectile();
+            ShootProjectile(friendly);
             yield return new WaitForSeconds(timeBetweenProj);
         }
         
     }
 
     //Shoots projectile based ranged attack
-    protected void ShootProjectile()
+    protected void ShootProjectile(bool friendly)
     {
 
         //Creates Offset and projectile direction
@@ -173,7 +173,7 @@ public class Weapon : MonoBehaviour
         Vector2 direction = this.transform.up.normalized;
         direction = (direction + offset).normalized * projSpeed;
         direction = direction + rb.linearVelocity;
-        ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
+        ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime, friendly);
         if (friendlyFire)// enemies will have infinite ammo
         {
             curr_ammo -= 1;

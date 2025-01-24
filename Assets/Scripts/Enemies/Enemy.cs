@@ -13,23 +13,20 @@ public class Enemy : MonoBehaviour
     public float windUpTime;
     public float cooldownTime;
     [SerializeField] float attackLeeway = 1f; // How much closer enemies will get than their max range
-    [SerializeField] Transform primaryEffector; // IK effector
+    [SerializeField] Transform gunPoint; // IK grapple target (i.e. the weapon)
     [SerializeField] Transform rig; // IK rig
     [SerializeField] Transform headRig; // IK head
 
-
-    private Vector3 weaponOffset; // how far we want the weapon to be from the model
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         curr_health = MAX_HEALTH;
-        weaponOffset = rig.transform.InverseTransformPoint(primaryEffector.position);
     }
 
     void Move(float magnitude = 1f) // move towards player
     {
-        Vector3 direction = Player.Instance.transform.position - weapon.transform.position * magnitude;
+        Vector3 direction = Player.Instance.transform.position - gunPoint.position * magnitude;
 
         float angle = Mathf.Atan(direction.y / direction.x) * Mathf.Rad2Deg;
         if (direction.y < 0) angle -= 180;
@@ -55,7 +52,7 @@ public class Enemy : MonoBehaviour
 
     void Look() // change orientation to face player
     {
-        Vector3 direction = Player.Instance.transform.position - weapon.transform.position;
+        Vector3 direction = Player.Instance.transform.position - gunPoint.position;
 
         float angle = Mathf.Atan(direction.y /direction.x) * Mathf.Rad2Deg;
         if (direction.y < 0) angle -= 180;
@@ -64,7 +61,9 @@ public class Enemy : MonoBehaviour
         else angle += 90; // help me
 
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        gunPoint.rotation = targetRotation;
         weapon.transform.rotation = targetRotation;
+
     }
 
     void AttackPlayer()
@@ -104,7 +103,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (weapon.range >= Vector3.Distance(Player.Instance.transform.position, weapon.transform.position))
+        if (weapon.range >= Vector3.Distance(Player.Instance.transform.position, gunPoint.position))
         {
             AttackPlayer();
 

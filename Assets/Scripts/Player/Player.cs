@@ -134,7 +134,7 @@ public class Player : Singleton<Player>
     private void AttackActiveWeapon()
     {
         weaponList[weaponIndex].Attack(true);
-        if(sameWeaponTypeList.Count > 0)
+        if (sameWeaponTypeList.Count > 0)
         {
             int newSameWeaponIndex = sameWeaponTypeList.IndexOf(weaponList[weaponIndex]) + 1;
             if (newSameWeaponIndex >= sameWeaponTypeList.Count) newSameWeaponIndex = 0;
