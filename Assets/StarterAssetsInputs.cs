@@ -13,6 +13,8 @@ namespace StarterAssets
         public Vector2 move;
         public Vector2 look;
         public bool attack;
+        public bool attackAll;
+        public bool throwAction;
         public bool interact;
         public bool pause;
         public bool dash;
@@ -48,6 +50,16 @@ namespace StarterAssets
         public void OnAttack(InputValue value)
         {
             AttackInput(value.isPressed);
+        }
+
+        public void OnAttackAll(InputValue value)
+        {
+            AttackAllInput(value.isPressed);
+        }
+
+        public void OnThrow(InputValue value)
+        {
+            ThrowInput(value.isPressed);
         }
 
         public void OnScrollIn(InputValue value)
@@ -86,6 +98,16 @@ namespace StarterAssets
         public void AttackInput(bool newAttackState)
         {
             attack = newAttackState;
+        }
+
+        public void AttackAllInput(bool newAttackAllState)
+        {
+            attackAll = newAttackAllState;
+        }
+
+        public void ThrowInput(bool newThrowState)
+        {
+            throwAction = newThrowState;
         }
 
         public void ScrollInInput(float newScrollInAmount)

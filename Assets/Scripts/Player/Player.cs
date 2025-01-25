@@ -74,7 +74,7 @@ public class Player : Singleton<Player>
 
         if (throwAction.WasPressedThisFrame())
         {
-            ThowCurrentAndSimilarWeapons();
+            ThrowCurrentAndSimilarWeapons();
         }
 
         if (interactAction.WasPressedThisFrame())
@@ -108,7 +108,7 @@ public class Player : Singleton<Player>
             sumWeights += loopWeapon.weight;
         }
         targetSpeed = Mathf.Clamp(moveForce / sumWeights,minMoveSpeed,maxMoveSpeed);
-        Debug.Log(targetSpeed);
+        //Debug.Log(targetSpeed);
         actualSpeed = Mathf.Lerp(rb.linearVelocity.magnitude, targetSpeed, Time.deltaTime * changeVelocitySpeed);
 
         if (Mathf.Abs(moveVector.magnitude) > 0.1) rb.linearVelocity = moveVector * actualSpeed;
@@ -117,6 +117,7 @@ public class Player : Singleton<Player>
 
     private void Death()
     {
+        Debug.Log("Player Death() called!");
         // TODO: player death animation, sounds
 
         // TODO: GameManager should handle Game Over!
@@ -125,7 +126,7 @@ public class Player : Singleton<Player>
     public void TakeDamage()
     {
         if (weaponList.Count >= 2)
-            ThrowRandomWeapon(); // TODO: this shouldn't be a random weapon! drop active weapon!
+            DropWeapon(); // drop active weapon
         else
             Death();
     }
@@ -153,7 +154,7 @@ public class Player : Singleton<Player>
     }
 
     //Throws the active and all similar weapons to the active weapon. Called with the throw action
-    private void ThowCurrentAndSimilarWeapons()
+    private void ThrowCurrentAndSimilarWeapons()
     {
         if (weaponIndex == 0) return;
         foreach (Weapon loopWeapon in sameWeaponTypeList)
@@ -168,7 +169,16 @@ public class Player : Singleton<Player>
         ChangeWeaponIndex(Mathf.RoundToInt(Random.Range(1,weaponList.Count)));
     }
 
-    //Removes a weapon from the weapon list at random. Called when player is damaged
+    //Removes currently active weapon from list, and weapon disappears. Called when player is damaged
+    private void DropWeapon()
+    {
+        weaponList[weaponIndex].Drop();
+        weaponList.Remove(weaponList[weaponIndex]);
+        ChangeWeaponIndex(weaponIndex);
+
+    }
+
+    //Removes a weapon from the weapon list at random. Maybe can be used for getting hit by certain effects?
     private void ThrowRandomWeapon()
     {
         int randomIndex = Mathf.RoundToInt(Random.Range(1, weaponList.Count));
@@ -186,6 +196,7 @@ public class Player : Singleton<Player>
     //This is to avoid list changes, causing errors. 
     public IEnumerator ThrowWeaponAfter(Weapon weaponToThrow)
     {
+        Debug.Log("ThrowWeaponAfter() called");
         yield return new WaitForEndOfFrame();
         weaponToThrow.Throw();
         weaponList.Remove(weaponToThrow);

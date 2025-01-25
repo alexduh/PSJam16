@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected GameObject heldSprite;
     [SerializeField] protected GameObject droppedSprite;
     protected float movementSpeed = 4f;
+    private float FADE_TIME = 3f;
     public Vector2 setDestination;
     private Vector3 m_Velocity = Vector3.zero;
     private float m_MovementSmoothing = .075f;  // How much to smooth out the movement
@@ -110,13 +111,22 @@ public class Weapon : MonoBehaviour
         // TODO: play sound effect (animation?)
     }
 
+    public void Drop()
+    {
+        ToggleSprite(false);
+        StartCoroutine(FadeAway());
+    }
+
     //Behavior for when the player droppes/throws a weapon
     public void Throw()
     {
         transform.SetParent(null);
         ToggleSprite(false);
+
+        // add velocity and collision to thrown weapon
+        Debug.Log("Throwing " + gameObject);
         weaponCollider.enabled = true;
-        // TODO: add velocity and collision to thrown weapon
+        rb.linearVelocity = this.transform.up.normalized * projSpeed;
     }
 
 
@@ -150,7 +160,19 @@ public class Weapon : MonoBehaviour
         droppedSprite.SetActive(!held);
     }
 
+    protected IEnumerator FadeAway()
+    {
+        Color currentColor = droppedSprite.GetComponent<SpriteRenderer>().color;
+        Color targetColor = new Color(currentColor.r, currentColor.g, currentColor.b, 0);
+        float currentTime = Time.time;
+        while (droppedSprite.GetComponent<SpriteRenderer>().color != targetColor)
+        {
+            droppedSprite.GetComponent<SpriteRenderer>().color = Color.Lerp(currentColor, targetColor, (Time.time - currentTime)/FADE_TIME);
+            yield return new WaitForSeconds(.1f);
+        }
 
+        yield return null;
+    }
 
     //Coroutine that shoots multiple projectiles in a row
     protected IEnumerator ShootProjectiles(float timeBetweenProj, int numProj)
@@ -173,12 +195,12 @@ public class Weapon : MonoBehaviour
         Vector2 direction = this.transform.up.normalized;
         direction = (direction + offset).normalized * projSpeed;
         direction = direction + rb.linearVelocity;
-        ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime);
+        ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime, friendlyFire);
         if (friendlyFire)// enemies will have infinite ammo
         {
             curr_ammo -= 1;
-            if(curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
-        } 
+            if (curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
+        }
     }
 
     //Helper class that smoothly moves the weapon to its target position

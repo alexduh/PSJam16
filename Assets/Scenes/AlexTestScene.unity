@@ -628,7 +628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3095449635507132674, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.031626016
+      value: 0.031626243
       objectReference: {fileID: 0}
     - target: {fileID: 4002352022378231776, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.w
@@ -640,11 +640,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4472869951850451995, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99513733
+      value: 0.99513745
       objectReference: {fileID: 0}
     - target: {fileID: 4472869951850451995, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.098496854
+      value: -0.09849657
       objectReference: {fileID: 0}
     - target: {fileID: 4721043414038463214, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.w
@@ -652,7 +652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4721043414038463214, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.15050228
+      value: 0.15050198
       objectReference: {fileID: 0}
     - target: {fileID: 7871254468405636865, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.w
@@ -664,11 +664,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7901720577293226881, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8282195
+      value: 0.8282196
       objectReference: {fileID: 0}
     - target: {fileID: 7901720577293226881, guid: 381c14ea11eac45aa8c677fbb79b7300, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.56040394
+      value: 0.56040376
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1703,7 +1703,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.1
+  m_Radius: 0.25
 --- !u!1 &8470303093292901736
 GameObject:
   m_ObjectHideFlags: 0

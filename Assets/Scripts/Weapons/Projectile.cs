@@ -35,8 +35,12 @@ public class Projectile : MonoBehaviour
     }
 
     //Use This Method to activate projectile
-    public void ActivateProjectile(Vector3 spawnLocation, Vector2 projectileVelocity, float projectileDamage, float projectileLifeSpan)
+    public void ActivateProjectile(Vector3 spawnLocation, Vector2 projectileVelocity, float projectileDamage, float projectileLifeSpan, bool friendly)
     {
+        if (friendly)
+            tag = "PlayerOwned";
+        else
+            tag = "EnemyOwned";
         transform.position = spawnLocation;
         gameObject.SetActive(true);
         //particleTrail.SetActive(false); TODO: ADD PROJECTILE TRAIL IF APPLICABLE
@@ -52,12 +56,12 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        CollisionBehavior(collision);
+        //CollisionBehavior(collision);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        CollisionBehavior(collision);
+        //CollisionBehavior(collision);
     }
 
 
@@ -69,9 +73,9 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && tag == "EnemyOwned")
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && CompareTag("EnemyOwned"))
                 Player.Instance.TakeDamage();
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && tag == "PlayerOwned")
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && CompareTag("PlayerOwned"))
                 other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
 
             DeactivateProjectile();
