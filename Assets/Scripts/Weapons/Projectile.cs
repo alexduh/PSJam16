@@ -47,6 +47,7 @@ public class Projectile : MonoBehaviour
         rb.linearVelocity = projectileVelocity;
         StartCoroutine(DisableAfter(projectileLifeSpan));
         damage = projectileDamage;
+        tag = friendly ? "PlayerOwned" : "EnemyOwned";
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -67,19 +68,22 @@ public class Projectile : MonoBehaviour
 
     void CollisionBehavior(Collider2D other)
     {
-        if (false)
-        {
-            //ToDo: Hit player/enemy/hitbox behavior
-        }
-        else
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && CompareTag("EnemyOwned"))
-                Player.Instance.TakeDamage();
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && CompareTag("PlayerOwned"))
-                other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && tag == "EnemyOwned")
+        {
+            Player.Instance.TakeDamage();
             DeactivateProjectile();
         }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && tag == "PlayerOwned")
+        {
+            other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            DeactivateProjectile();
+        }
+        else if (other.tag == "WorldOwned")
+        {
+            DeactivateProjectile();
+        }
+     
     }
 
     public void DeactivateProjectile()
