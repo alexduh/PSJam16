@@ -6,6 +6,7 @@ using Unity.Jobs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Processors;
 
 public class Player : Singleton<Player>
 {
@@ -23,6 +24,7 @@ public class Player : Singleton<Player>
     [SerializeField] PlayerInput playerInput;
     InputAction moveAction; InputAction attackAction; InputAction attackAllAction; InputAction interactAction; InputAction throwAction; InputAction previousWeaponAction; InputAction nextWeaponAction;
     Rigidbody2D rb;
+    [SerializeField] CircleCollider2D playerCollider;
 
     [SerializeField] List<Weapon> weaponList = new List<Weapon>(); //This is the core of the class. Contains a list of all weapons avaliable to the player
     [SerializeField] int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
@@ -31,7 +33,7 @@ public class Player : Singleton<Player>
     [SerializeField] List<string> uniqueWeaponList = new List<string>();
 
 
-    [SerializeField] List<Weapon> nearbyWeaponsList = new List<Weapon>(); //List of weapons that are nearby
+    List<Weapon> nearbyWeaponsList = new List<Weapon>(); //List of weapons that are nearby
     
 
     [SerializeField] float pickupRange;
@@ -244,6 +246,7 @@ public class Player : Singleton<Player>
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
         CheckForUniqueWeapons();
         FindSameWeapon(weaponList[weaponIndex]);
+
     }
 
     //Populates the sameWeaponTypeList with a list of weapons that have the same name as the active weapon
@@ -269,12 +272,10 @@ public class Player : Singleton<Player>
             oldNearbyWeapon.TogglePickUpAble(false);
         }
         nearbyWeaponsList.Clear();
-
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickupRange, weaponDetectionLayers);
         Debug.DrawLine(transform.position, transform.position + Vector3.right * pickupRange, Color.white);
         foreach (Collider2D collider in colliders)
         {
-            Debug.Log(collider.name);
             if(collider.TryGetComponent<Weapon>(out Weapon potentialWeapon))
             {
                 if(potentialWeapon.curr_ammo > 0)
@@ -320,6 +321,9 @@ public class Player : Singleton<Player>
         //Creates a weapon cloud depending on the number of weapons weapon list
         angleStep = 360f / Mathf.Clamp(weaponList.Count , 0, 7);
         angleOffset = orbitOffset;
+
+        if (weaponList.Count == 1) newWeaponRadius = 0.25f;
+
         for (int i = 0; i < Mathf.Clamp(weaponList.Count,0,7); i++)
         {
             // Calculate the position of the follower in world space
@@ -358,8 +362,9 @@ public class Player : Singleton<Player>
                 weaponList[i].setDestination = transform.position + offset;
             }
         }
-        
-        //Sets Active weapon to be centered in the cloud
+
+        //Sets Active weapon to be centered in the cloud. Also resets the 
+        playerCollider.radius = newWeaponRadius;
         weaponList[weaponIndex].setDestination = transform.position;
     }
 
