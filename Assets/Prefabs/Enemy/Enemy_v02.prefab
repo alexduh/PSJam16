@@ -194,6 +194,7 @@ MonoBehaviour:
   weight: 1
   heldSprite: {fileID: 0}
   droppedSprite: {fileID: 4368425859248643035}
+  playerMovementSpeed: 4
   movementSpeed: 1
   setDestination: {x: 0, y: 0}
   ranged: 1
@@ -451,7 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_HEALTH: 5
   curr_health: 5
-  MOVE_SPEED: 5
+  MOVE_SPEED: 0.2
   weapon: {fileID: 3411330683755504283}
   rb: {fileID: 7036595972570474556}
   windUpTime: 0

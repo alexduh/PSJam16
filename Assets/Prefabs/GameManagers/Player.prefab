@@ -43,7 +43,8 @@ GameObject:
   - component: {fileID: 5747802921621687386}
   - component: {fileID: 6856975932425040600}
   - component: {fileID: 3518273391631361310}
-  m_Layer: 0
+  - component: {fileID: 6806016358513023197}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +115,7 @@ MonoBehaviour:
   orbitSpeed: 60
   rotateSpeed: 300
   playerInput: {fileID: 3518273391631361310}
+  playerCollider: {fileID: 6806016358513023197}
   weaponList:
   - {fileID: 622538543953980556}
   - {fileID: 0}
@@ -128,7 +130,6 @@ MonoBehaviour:
   sameWeaponTypeList: []
   uniqueWeaponList:
   - Sword
-  nearbyWeaponsList: []
   pickupRange: 4
   weaponDetectionLayers:
     serializedVersion: 2
@@ -163,6 +164,42 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!58 &6806016358513023197
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388287953096792797}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.25
 --- !u!1 &8152545866347256881
 GameObject:
   m_ObjectHideFlags: 0

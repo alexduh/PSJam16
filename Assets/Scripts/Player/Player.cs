@@ -179,6 +179,10 @@ public class Player : Singleton<Player>
     //Removes currently active weapon from list, and weapon disappears. Called when player is damaged. If 
     private void DropWeapon()
     {
+        //Saves the Sword from being dropped. This is probably not the best way to do it, but the edge cases are prevented
+        //by the circumstances of the call so who cares
+        bool currentWeaponIsSword = (weaponIndex == 0);
+        if (currentWeaponIsSword) weaponIndex += 1;
 
         if (sameWeaponTypeList.Count >= 1)
         {
@@ -194,6 +198,8 @@ public class Player : Singleton<Player>
             weaponList.Remove(weaponList[weaponIndex]);
             ChangeWeaponIndex(weaponIndex);
         }
+
+        if (currentWeaponIsSword) weaponIndex = 0;
 
     }
 
@@ -220,6 +226,8 @@ public class Player : Singleton<Player>
     //Changes the Weapon Index and and calls FindSameWeapon and checks for unique weapons
     private void ChangeWeaponIndex(int changeTo, bool differentFromActive = false)
     {
+        //Initiates different behavior if the player is scrolling/changes weapon.
+        //Makes it so that the weapon is changed to another of a different type of the active weapon
         if (differentFromActive)
         {
             int uniqueWeaponIndex = uniqueWeaponList.IndexOf(weaponList[weaponIndex].weaponName);
@@ -246,7 +254,6 @@ public class Player : Singleton<Player>
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
         CheckForUniqueWeapons();
         FindSameWeapon(weaponList[weaponIndex]);
-
     }
 
     //Populates the sameWeaponTypeList with a list of weapons that have the same name as the active weapon
@@ -261,7 +268,6 @@ public class Player : Singleton<Player>
             }
         }
     }
-
 
     //Checks for nearby weapons through a physics overlap circle, only looking at the weapon layer. Adds nearby weapons to list if 
     //There is still ammo inside. 
@@ -300,6 +306,7 @@ public class Player : Singleton<Player>
         nearbyWeaponsList.Clear();
     }
 
+    //Helper Class that creates a list of unique weapons. Called everytime the weapon index changes
     private void CheckForUniqueWeapons()
     {
         uniqueWeaponList.Clear();

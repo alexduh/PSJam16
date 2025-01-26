@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
@@ -17,7 +18,8 @@ public class Weapon : MonoBehaviour
     //Variables related to visuals
     [SerializeField] protected GameObject heldSprite;
     [SerializeField] protected GameObject droppedSprite;
-    [SerializeField] float movementSpeed = 4f;
+    [SerializeField] float playerMovementSpeed = 4f;
+    public float movementSpeed = 4f;
     private float FADE_TIME = 3f;
     public Vector2 setDestination;
     private Vector3 m_Velocity = Vector3.zero;
@@ -137,6 +139,7 @@ public class Weapon : MonoBehaviour
     {
         ToggleSprite(true);
         TogglePickUpAble(false);
+        movementSpeed = playerMovementSpeed;
         friendlyFire = true;
         weaponCollider.enabled = false;
     }

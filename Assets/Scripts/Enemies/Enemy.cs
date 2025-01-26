@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        weapon.movementSpeed = MOVE_SPEED;
         curr_health = MAX_HEALTH;
     }
 
