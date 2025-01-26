@@ -28,7 +28,11 @@ public class Player : Singleton<Player>
     [SerializeField] int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
     [SerializeField] float weaponRevolveRadius;
     [SerializeField] List<Weapon> sameWeaponTypeList = new List<Weapon>(); //List of weapons that are the same as the active weapon. Recalcalculated whenever the active weapon changes
+    [SerializeField] List<string> uniqueWeaponList = new List<string>();
+
+
     [SerializeField] List<Weapon> nearbyWeaponsList = new List<Weapon>(); //List of weapons that are nearby
+    
 
     [SerializeField] float pickupRange;
     [SerializeField] LayerMask weaponDetectionLayers;
@@ -52,6 +56,7 @@ public class Player : Singleton<Player>
         nextWeaponAction = playerInput.actions["Next"];
         rb = GetComponent<Rigidbody2D>();
         CalculateWeaponCloud();
+        CheckForUniqueWeapons();
     }
 
     // Update is called once per frame
@@ -84,12 +89,12 @@ public class Player : Singleton<Player>
 
         if (previousWeaponAction.WasPerformedThisFrame())
         {
-            ChangeWeaponIndex(weaponIndex - 1);
+            ChangeWeaponIndex(weaponIndex - 1, true);
         }
 
         if (nextWeaponAction.WasPerformedThisFrame())
         {
-            ChangeWeaponIndex(weaponIndex + 1);
+            ChangeWeaponIndex(weaponIndex + 1, true);
         }
     }
 
@@ -169,22 +174,25 @@ public class Player : Singleton<Player>
         ChangeWeaponIndex(Mathf.RoundToInt(Random.Range(1,weaponList.Count)));
     }
 
-    //Removes currently active weapon from list, and weapon disappears. Called when player is damaged
+    //Removes currently active weapon from list, and weapon disappears. Called when player is damaged. If 
     private void DropWeapon()
     {
-        weaponList[weaponIndex].Drop();
-        weaponList.Remove(weaponList[weaponIndex]);
-        ChangeWeaponIndex(weaponIndex);
 
-    }
+        if (sameWeaponTypeList.Count >= 1)
+        {
+            int newSameWeaponIndex = sameWeaponTypeList.IndexOf(weaponList[weaponIndex]) + 1;
+            if (newSameWeaponIndex >= sameWeaponTypeList.Count) newSameWeaponIndex = 0;
+            weaponList[weaponIndex].Drop();
+            weaponList.Remove(weaponList[weaponIndex]);
+            ChangeWeaponIndex(weaponList.IndexOf(sameWeaponTypeList[newSameWeaponIndex]));
+        }
+        else
+        {
+            weaponList[weaponIndex].Drop();
+            weaponList.Remove(weaponList[weaponIndex]);
+            ChangeWeaponIndex(weaponIndex);
+        }
 
-    //Removes a weapon from the weapon list at random. Maybe can be used for getting hit by certain effects?
-    private void ThrowRandomWeapon()
-    {
-        int randomIndex = Mathf.RoundToInt(Random.Range(1, weaponList.Count));
-        weaponList[randomIndex].Throw();
-        weaponList.Remove(weaponList[randomIndex]);
-        if (randomIndex == weaponIndex) ChangeWeaponIndex(randomIndex);
     }
 
     //Removes a specific weapon from list. Called when a weapon runs out of ammo
@@ -207,12 +215,34 @@ public class Player : Singleton<Player>
         ChangeWeaponIndex(weaponIndex);
     }
 
-    //Changes the Weapon Index and and calls FindSameWeapon
-    private void ChangeWeaponIndex(int changeTo)
+    //Changes the Weapon Index and and calls FindSameWeapon and checks for unique weapons
+    private void ChangeWeaponIndex(int changeTo, bool differentFromActive = false)
     {
-        weaponIndex = changeTo;
+        if (differentFromActive)
+        {
+            int uniqueWeaponIndex = uniqueWeaponList.IndexOf(weaponList[weaponIndex].weaponName);
+            if (changeTo > weaponIndex) uniqueWeaponIndex += 1;
+            else uniqueWeaponIndex -= 1;
+
+            if (uniqueWeaponIndex < 0) uniqueWeaponIndex = uniqueWeaponList.Count - 1;
+            if (uniqueWeaponIndex >= uniqueWeaponList.Count) uniqueWeaponIndex = 0;
+
+            foreach (Weapon weapon in weaponList)
+            {
+                if(weapon.weaponName == uniqueWeaponList[uniqueWeaponIndex])
+                {
+                    weaponIndex = weaponList.IndexOf(weapon);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            weaponIndex = changeTo;
+        }
         if (weaponIndex < 0) weaponIndex = weaponList.Count - 1;
         if (weaponIndex >= weaponList.Count) weaponIndex = 0;
+        CheckForUniqueWeapons();
         FindSameWeapon(weaponList[weaponIndex]);
     }
 
@@ -267,6 +297,18 @@ public class Player : Singleton<Player>
         }
         FindSameWeapon(weaponList[weaponIndex]);
         nearbyWeaponsList.Clear();
+    }
+
+    private void CheckForUniqueWeapons()
+    {
+        uniqueWeaponList.Clear();
+        foreach (Weapon weapon in weaponList)
+        {
+            if (!uniqueWeaponList.Contains(weapon.weaponName))
+            {
+                uniqueWeaponList.Add(weapon.weaponName);
+            }
+        }
     }
 
     //Creates a circle around the player/active weapon at even intervals determined by the number of weapons

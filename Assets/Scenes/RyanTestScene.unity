@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 380530386}
   m_Layer: 0
   m_Name: Wall Placeholder (2)
-  m_TagString: Untagged
+  m_TagString: WorldOwned
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: 490831077}
   m_Layer: 0
   m_Name: Wall Placeholder (1)
-  m_TagString: Untagged
+  m_TagString: WorldOwned
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1983,7 +1983,7 @@ GameObject:
   - component: {fileID: 1534534932}
   m_Layer: 0
   m_Name: Wall Placeholder
-  m_TagString: Untagged
+  m_TagString: WorldOwned
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
