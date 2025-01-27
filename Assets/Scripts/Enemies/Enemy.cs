@@ -85,18 +85,15 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-
+        SetHP(curr_health - damage);
+        if (curr_health <= 0)
+            Death();
     }
 
     // Update is called once per frame
     void Update()
     {
         Look();
-
-        if (curr_health <= 0)
-        {
-            Death();
-        }
 
         if (windUpTime > 0 || cooldownTime > 0)
         {

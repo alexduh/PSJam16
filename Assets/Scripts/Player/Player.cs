@@ -40,7 +40,7 @@ public class Player : Singleton<Player>
     [SerializeField] LayerMask weaponDetectionLayers;
 
 
-    void Initialize()
+    public void Initialize()
     {
         weaponList = new List<Weapon>();
     }

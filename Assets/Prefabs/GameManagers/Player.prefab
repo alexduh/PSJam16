@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7585660326830398485}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera Follow Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5747802921621687386}
   - component: {fileID: 6856975932425040600}
   - component: {fileID: 3518273391631361310}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +114,7 @@ MonoBehaviour:
   orbitSpeed: 60
   rotateSpeed: 300
   playerInput: {fileID: 3518273391631361310}
+  playerCollider: {fileID: 0}
   weaponList:
   - {fileID: 622538543953980556}
   - {fileID: 0}
@@ -128,7 +129,6 @@ MonoBehaviour:
   sameWeaponTypeList: []
   uniqueWeaponList:
   - Sword
-  nearbyWeaponsList: []
   pickupRange: 4
   weaponDetectionLayers:
     serializedVersion: 2
@@ -172,7 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4493347962135865472}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4246596647266365585}
   - component: {fileID: 1598806156040255501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,9 +290,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4493347962135865472}
     m_Modifications:
+    - target: {fileID: 1733956446810821061, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6674062466672243208, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674062466672243208, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7192202133468864873, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7666437362575905567, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
       propertyPath: m_LocalPosition.x
