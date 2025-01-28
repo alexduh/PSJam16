@@ -26,6 +26,9 @@ public class Player : Singleton<Player>
     Rigidbody2D rb;
     [SerializeField] CircleCollider2D playerCollider;
 
+    [SerializeField] Knife swordPrefab;
+    [SerializeField] Transform weaponHolder; // picked up weapons will be parented to this object
+
     [SerializeField] List<Weapon> weaponList = new List<Weapon>(); //This is the core of the class. Contains a list of all weapons avaliable to the player
     [SerializeField] int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
     [SerializeField] float weaponRevolveRadius;
@@ -43,12 +46,14 @@ public class Player : Singleton<Player>
     public void Initialize()
     {
         weaponList = new List<Weapon>();
+        Knife defaultWeapon = Instantiate(swordPrefab, weaponHolder);
+        defaultWeapon.Pickup();
+        weaponList.Add(defaultWeapon);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //Initialize(); // TODO: move this to StartGame() in GameManager!
         moveAction = playerInput.actions["Move"];
         attackAction = playerInput.actions["Attack"];
         attackAllAction = playerInput.actions["AttackAll"];
@@ -57,7 +62,7 @@ public class Player : Singleton<Player>
         previousWeaponAction = playerInput.actions["Previous"];
         nextWeaponAction = playerInput.actions["Next"];
         rb = GetComponent<Rigidbody2D>();
-        CalculateWeaponCloud();
+        //CalculateWeaponCloud();
         CheckForUniqueWeapons();
     }
 
@@ -301,6 +306,7 @@ public class Player : Singleton<Player>
             nearbyWeapon.TogglePickUpAble(false);
             nearbyWeapon.Pickup();
             weaponList.Add(nearbyWeapon);
+            nearbyWeapon.transform.SetParent(weaponHolder);
         }
         FindSameWeapon(weaponList[weaponIndex]);
         nearbyWeaponsList.Clear();

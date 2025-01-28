@@ -141,6 +141,8 @@ MonoBehaviour:
   weight: 3
   heldSprite: {fileID: 7192202133468864873}
   droppedSprite: {fileID: 1733956446810821061}
+  playerMovementSpeed: 4
+  movementSpeed: 4
   setDestination: {x: 0, y: 0}
   ranged: 0
   range: 0
@@ -153,6 +155,7 @@ MonoBehaviour:
   projSpread: 0
   numProj: 0
   timeBetweenProj: 0
+  weaponCollider: {fileID: 7739850985582426825}
   friendlyFire: 0
 --- !u!50 &369068250631560265
 Rigidbody2D:
@@ -167,7 +170,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 6
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

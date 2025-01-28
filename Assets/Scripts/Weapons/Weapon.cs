@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected float projSpread;
     [SerializeField] protected int numProj;
     [SerializeField] protected float timeBetweenProj;
-    Collider2D weaponCollider;
+    [SerializeField] Collider2D weaponCollider;
     public bool friendlyFire; // used to determine if attacks should collide with enemies or player
 
     protected void Start()
@@ -47,7 +47,6 @@ public class Weapon : MonoBehaviour
         setDestination = transform.position;
         curr_ammo = MAX_AMMO;
         rb = GetComponent<Rigidbody2D>();
-        weaponCollider = GetComponent<Collider2D>();
     }
 
     protected void Update()

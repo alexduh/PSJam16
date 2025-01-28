@@ -17,9 +17,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform rig; // IK rig
     [SerializeField] Transform headRig; // IK head
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Enemy colliding!");
+    }
+
 
     void Start()
     {
+        // TODO: assign the weapon before gunPoint is assigned!
+        gunPoint = weapon.transform;
         rb = GetComponent<Rigidbody2D>();
         weapon.movementSpeed = MOVE_SPEED;
         curr_health = MAX_HEALTH;

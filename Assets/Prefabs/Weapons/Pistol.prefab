@@ -229,6 +229,7 @@ MonoBehaviour:
   weight: 1
   heldSprite: {fileID: 521353958388061972}
   droppedSprite: {fileID: 2481979596771893961}
+  playerMovementSpeed: 4
   movementSpeed: 4
   setDestination: {x: 0, y: 0}
   ranged: 1
@@ -242,6 +243,7 @@ MonoBehaviour:
   projSpread: 0.1
   numProj: 1
   timeBetweenProj: 1
+  weaponCollider: {fileID: 8432201502661652049}
   friendlyFire: 0
 --- !u!50 &5629430062182906498
 Rigidbody2D:

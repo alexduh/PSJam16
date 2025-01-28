@@ -2004,6 +2004,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 198265996018865988, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9994998
+      objectReference: {fileID: 0}
+    - target: {fileID: 198265996018865988, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.031627465
+      objectReference: {fileID: 0}
     - target: {fileID: 1630351038885458244, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
       propertyPath: m_Name
       value: Enemy_v02
@@ -2012,6 +2020,10 @@ PrefabInstance:
       propertyPath: heldSprite
       value: 
       objectReference: {fileID: 2011668856}
+    - target: {fileID: 4558409154052410551, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.53434974
+      objectReference: {fileID: 0}
     - target: {fileID: 8004592526142871407, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.54608774
@@ -2051,6 +2063,18 @@ PrefabInstance:
     - target: {fileID: 8004592526142871407, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174804635193950365, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.87842613
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174804635193950365, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.47787827
+      objectReference: {fileID: 0}
+    - target: {fileID: 8569825659821691414, guid: a4017abdd60ab4c75acef94134bffbb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.32891318
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2234,14 +2258,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a830c788d0eabf84dad5fe5145833624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveSpeed: 60
+  maxMoveSpeed: 20
   minMoveSpeed: 5
   moveForce: 400
   changeVelocitySpeed: 1
   orbitSpeed: 60
   rotateSpeed: 600
   playerInput: {fileID: 6224839402753980476}
-  playerCollider: {fileID: 0}
+  playerCollider: {fileID: 8364046470163294685}
+  swordPrefab: {fileID: 965682232649182473, guid: 2d70f9e738580804f96f26da8d836aee, type: 3}
+  weaponHolder: {fileID: 6407475877288965538}
   weaponList:
   - {fileID: 6256056106588271518}
   - {fileID: 4860769908718951420}
@@ -2467,6 +2493,7 @@ MonoBehaviour:
   weight: 0
   heldSprite: {fileID: 0}
   droppedSprite: {fileID: 0}
+  playerMovementSpeed: 4
   movementSpeed: 4
   setDestination: {x: 0, y: 0}
   ranged: 0
@@ -2480,6 +2507,7 @@ MonoBehaviour:
   projSpread: 0
   numProj: 0
   timeBetweenProj: 0
+  weaponCollider: {fileID: 0}
   friendlyFire: 0
 --- !u!4 &6407475877288965538
 Transform:
