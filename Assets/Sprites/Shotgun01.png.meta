@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -184,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Shotgun01_0: 2289200874449805893
+      Shotgun01_1: 5252080201555763380
+      Shotgun01_2: -5980187092735214554
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
