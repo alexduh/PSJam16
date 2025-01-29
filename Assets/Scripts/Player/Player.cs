@@ -42,15 +42,6 @@ public class Player : Singleton<Player>
     [SerializeField] float pickupRange;
     [SerializeField] LayerMask weaponDetectionLayers;
 
-
-    public void Initialize()
-    {
-        weaponList = new List<Weapon>();
-        Knife defaultWeapon = Instantiate(swordPrefab, weaponHolder);
-        defaultWeapon.Pickup();
-        weaponList.Add(defaultWeapon);
-    }
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
