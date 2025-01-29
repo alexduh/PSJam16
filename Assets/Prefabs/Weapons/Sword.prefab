@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Sword
   FIRE_RATE: 0
-  DAMAGE: 0
+  DAMAGE: 10
   weight: 3
   heldSprite: {fileID: 7192202133468864873}
   droppedSprite: {fileID: 1733956446810821061}

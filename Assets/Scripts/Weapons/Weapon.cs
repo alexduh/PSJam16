@@ -214,4 +214,12 @@ public class Weapon : MonoBehaviour
         rb.linearVelocity = Vector3.SmoothDamp(rb.linearVelocity, directionVector * movementSpeed, ref m_Velocity, m_MovementSmoothing);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!ranged)
+        {
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(DAMAGE);
+        }
+    }
+
 }
