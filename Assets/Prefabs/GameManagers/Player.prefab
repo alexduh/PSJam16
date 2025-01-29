@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMoveSpeed: 50
   minMoveSpeed: 10
-  moveForce: 350
+  moveForce: 400
   changeVelocitySpeed: 1
   orbitSpeed: 60
   rotateSpeed: 300
