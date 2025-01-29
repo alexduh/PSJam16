@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // TODO: initialize player, map, enemies
-        Player.Instance.Initialize();
+
         enemySpawnTimer = SPAWN_TIME;
         // TODO: 
     }
