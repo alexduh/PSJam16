@@ -83,6 +83,11 @@ public class Projectile : MonoBehaviour
         {
             DeactivateProjectile();
         }
+        else if (other.tag == "Destructible")
+        {
+            other.gameObject.GetComponent<DestructibleObject>().Damage(damage);
+            DeactivateProjectile();
+        }
      
     }
 

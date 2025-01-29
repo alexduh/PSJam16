@@ -40,11 +40,16 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected int numProj;
     [SerializeField] protected float timeBetweenProj;
     [SerializeField] Collider2D weaponCollider;
+    [SerializeField] Transform projectileHelper;
+
     public bool friendlyFire; // used to determine if attacks should collide with enemies or player
+    [SerializeField] protected LineRendererHelper enemyAimingLineRenderer;
+    [SerializeField] LayerMask rangedLayerMask;
 
     protected void Start()
     {
         setDestination = transform.position;
+        range = projLifeTime * projSpeed;
         curr_ammo = MAX_AMMO;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -93,9 +98,23 @@ public class Weapon : MonoBehaviour
     }
 
     //Called by enemies when an attack is about to be executed.
-    public void AttackWindup()
+    public void AttackWindup(bool activate = true)
     {
+        if (!activate) { enemyAimingLineRenderer.EraseLines(); return; }
 
+        RaycastHit2D hit = Physics2D.Raycast(weaponSpawnPoint.position, transform.up, projSpeed * projLifeTime, rangedLayerMask);
+        if (hit)
+        {
+            projectileHelper.transform.position = hit.point;
+            Transform[] points = { weaponSpawnPoint, projectileHelper };
+            enemyAimingLineRenderer.SetUpLine(points);
+        }
+        else
+        {
+            projectileHelper.transform.position = projectileHelper.transform.position + (transform.up * projSpeed * projLifeTime);
+            Transform[] points = { weaponSpawnPoint, projectileHelper };
+            enemyAimingLineRenderer.SetUpLine(points);
+        }
     }
 
     //Called when ammo runs out
@@ -123,7 +142,7 @@ public class Weapon : MonoBehaviour
     {
         transform.SetParent(null);
         ToggleSprite(false);
-
+        enemyAimingLineRenderer.EraseLines();
         // add velocity and collision to thrown weapon
         Debug.Log("Throwing " + gameObject);
         weaponCollider.enabled = true;

@@ -284,7 +284,7 @@ public class Player : Singleton<Player>
         }
         nearbyWeaponsList.Clear();
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickupRange, weaponDetectionLayers);
-        Debug.DrawLine(transform.position, transform.position + Vector3.right * pickupRange, Color.white);
+        Debug.DrawLine(transform.position, transform.position + Vector3.up * pickupRange, Color.white);
         foreach (Collider2D collider in colliders)
         {
             if(collider.TryGetComponent<Weapon>(out Weapon potentialWeapon))
@@ -377,7 +377,7 @@ public class Player : Singleton<Player>
         }
 
         //Sets Active weapon to be centered in the cloud. Also resets the 
-        playerCollider.radius = newWeaponRadius;
+        playerCollider.radius = newWeaponRadius * 0.5f;
         weaponList[weaponIndex].setDestination = transform.position;
     }
 
