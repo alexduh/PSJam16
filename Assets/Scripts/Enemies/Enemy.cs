@@ -33,9 +33,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] float detectionRange;
 
     [SerializeField] GameObject enemyBody;
-    [SerializeField] GameObject enemyDeadBody ;
+    [SerializeField] GameObject enemyDeadBody;
 
-
+    [SerializeField] AudioSource enemyDeathSoundController;
+    [SerializeField] AudioClip[] enemyDeathRattles;
 
     //For Pathfinding
     private GameObject player;
@@ -45,9 +46,7 @@ public class Enemy : MonoBehaviour
     Vector3 startingPos;
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Debug.Log("Enemy colliding!");
-    }
+    {    }
 
 
     void Start()
@@ -160,37 +159,6 @@ public class Enemy : MonoBehaviour
         weapon.setDestination = transform.position;
     }
 
-    // DEPRECIATED FOR PATHFINDING
-    /*
-
-    void Move(float magnitude = 1f) // move towards player
-    {
-        Vector3 direction = Player.Instance.transform.position - gunPoint.position * magnitude;
-
-        float angle = Mathf.Atan(direction.y / direction.x) * Mathf.Rad2Deg;
-        if (direction.y < 0) angle -= 180;
-        else angle += 180;
-        if (direction.x < 0) angle -= 90;
-        else angle += 90; // help me
-
-        var destination = moveTowardsPerimeter(player.transform.position, weapon.range - attackLeeway, angle);
-        weapon.setDestination = destination;
-
-        rb.linearVelocity = Vector3.SmoothDamp(rb.linearVelocity, (destination - transform.position) * MOVE_SPEED, ref m_Velocity, m_MovementSmoothing);
-
-    }
-
-    // move the enemy towards whatever point is closest on an circular perimeter around the player
-    Vector3 moveTowardsPerimeter(Vector3 center, float radius, float angle)
-    {
-        float angleInRadians = angle * Mathf.Deg2Rad;
-        float x = center.x + radius * Mathf.Cos(angleInRadians);
-        float y = center.y + radius * Mathf.Sin(angleInRadians);
-        return new Vector3(x, y, center.z);
-    }
-
-    */
-
     void Look() // change orientation to face player
     {
         Vector3 direction = (player.transform.position - gunPoint.position).normalized;
@@ -202,17 +170,6 @@ public class Enemy : MonoBehaviour
         float step = rotateSpeed * Time.deltaTime;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
-        /*
-        float angle = Mathf.Atan(direction.y /direction.x) * Mathf.Rad2Deg;
-        if (direction.y < 0) angle -= 180;
-        else angle += 180;
-        if (direction.x < 0) angle -= 90;
-        else angle += 90; // help me
-
-        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
-        */
-
-        
         gunPoint.rotation = Quaternion.RotateTowards(gunPoint.rotation, targetRotation, step);
         weapon.transform.rotation = Quaternion.RotateTowards(weapon.transform.rotation, targetRotation, step);
 
@@ -232,7 +189,6 @@ public class Enemy : MonoBehaviour
 
     void Death()
     {
-        // TODO: add sounds and animation
         startingPos = transform.position;
         weapon.setDestination = transform.position;
         weapon.Throw();
@@ -240,7 +196,16 @@ public class Enemy : MonoBehaviour
         enemyDeadBody.SetActive(true);
         enemyDeadBody.transform.parent = null;
 
+        if (enemyDeathRattles.Length > 0)
+        {
+            int randomIndex = Random.Range(0, enemyDeathRattles.Length - 1);
+            AudioClip selectedSound = enemyDeathRattles[randomIndex];
+
+            AudioSource.PlayClipAtPoint(selectedSound, transform.position);
+        }
+
         gameObject.SetActive(false);
+
 
     }
 
