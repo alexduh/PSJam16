@@ -237,7 +237,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 27
+  m_SortingOrder: 5
   m_Sprite: {fileID: -8688008949083806591, guid: aafe7767164234e9bbb0fd2540e981b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -324,7 +324,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 25
+  m_SortingOrder: 3
   m_Sprite: {fileID: 1759575856736001884, guid: aafe7767164234e9bbb0fd2540e981b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -411,7 +411,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 26
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2878981371587967422, guid: aafe7767164234e9bbb0fd2540e981b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
     m_Bits: 1089
   detectionRange: 80
   enemyBody: {fileID: 900347822170032511}
-  enemyDeadBody: {fileID: 0}
+  enemyDeadBody: {fileID: 2724747563809417819}
   isAggressive: 0
 --- !u!50 &7724834089355406619
 Rigidbody2D:
@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: m_RootBone
       value: 
       objectReference: {fileID: 4631444904752410658}
+    - target: {fileID: 1961917325996929618, guid: 2dedb500e2d26e7489302b28c6152383, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2086222582512185705, guid: 2dedb500e2d26e7489302b28c6152383, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.884

@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 
@@ -44,6 +45,12 @@ public class Weapon : MonoBehaviour
     public bool friendlyFire; // used to determine if attacks should collide with enemies or player
     [SerializeField] protected LineRendererHelper enemyAimingLineRenderer;
     [SerializeField] LayerMask rangedLayerMask;
+
+
+    [SerializeField] AudioSource weaponFireController;
+    [SerializeField] AudioClip[] weaponFireSounds;
+
+
 
     protected void Start()
     {
@@ -219,6 +226,14 @@ public class Weapon : MonoBehaviour
         {
             curr_ammo -= 1;
             if (curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
+        }
+
+        if (weaponFireSounds.Length > 0)
+        {
+            int randomIndex = Random.Range(0, weaponFireSounds.Length - 1);
+            AudioClip selectedSound = weaponFireSounds[randomIndex];
+
+            weaponFireController.PlayOneShot(selectedSound);
         }
     }
 
