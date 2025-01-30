@@ -31,7 +31,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform headRig; // IK head
     [SerializeField] LayerMask detectionLayerMask;
     [SerializeField] float detectionRange;
-    [SerializeField] GameObject enemyBodySprite;
+
+    [SerializeField] GameObject enemyBody;
+    [SerializeField] GameObject enemyDeadBody ;
+
+
 
     //For Pathfinding
     private GameObject player;
@@ -232,8 +236,12 @@ public class Enemy : MonoBehaviour
         startingPos = transform.position;
         weapon.setDestination = transform.position;
         weapon.Throw();
-        enemyBodySprite.transform.parent = null;
+        enemyBody.SetActive(false);
+        enemyDeadBody.SetActive(true);
+        enemyDeadBody.transform.parent = null;
+
         gameObject.SetActive(false);
+
     }
 
     public void TakeDamage(float damage)
