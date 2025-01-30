@@ -341,7 +341,7 @@ MonoBehaviour:
   enemyAimingLineRenderer: {fileID: 587746735687688268}
   rangedLayerMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 1089
 --- !u!61 &4879628471079266324
 BoxCollider2D:
   m_ObjectHideFlags: 0

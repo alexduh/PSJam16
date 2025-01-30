@@ -252,7 +252,7 @@ MonoBehaviour:
   enemyAimingLineRenderer: {fileID: 6632548119142305136}
   rangedLayerMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 1089
 --- !u!50 &5629430062182906498
 Rigidbody2D:
   serializedVersion: 5

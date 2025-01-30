@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4350870975447133381}
   - component: {fileID: 2118793390197410682}
   - component: {fileID: 8705296625322186160}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Destructible Door
   m_TagString: Destructible
   m_Icon: {fileID: 0}
