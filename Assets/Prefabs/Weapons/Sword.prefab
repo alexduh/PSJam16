@@ -141,8 +141,8 @@ MonoBehaviour:
   weight: 3
   heldSprite: {fileID: 7192202133468864873}
   droppedSprite: {fileID: 1733956446810821061}
-  playerMovementSpeed: 4
-  movementSpeed: 4
+  playerMovementSpeed: 10
+  movementSpeed: 15
   setDestination: {x: 0, y: 0}
   ranged: 0
   range: 0
@@ -156,7 +156,12 @@ MonoBehaviour:
   numProj: 0
   timeBetweenProj: 0
   weaponCollider: {fileID: 7739850985582426825}
+  projectileHelper: {fileID: 0}
   friendlyFire: 0
+  enemyAimingLineRenderer: {fileID: 0}
+  rangedLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &369068250631560265
 Rigidbody2D:
   serializedVersion: 5
