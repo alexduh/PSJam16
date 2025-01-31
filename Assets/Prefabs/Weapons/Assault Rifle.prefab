@@ -332,7 +332,7 @@ MonoBehaviour:
   weaponSpawnPoint: {fileID: 3560299933088196222}
   projSpeed: 40
   projLifeTime: 5
-  projSpread: 0.2
+  projSpread: 0.15
   numProj: 6
   timeBetweenProj: 0.1
   weaponCollider: {fileID: 4879628471079266324}

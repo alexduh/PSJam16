@@ -498,8 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bd8bfa054808043a75496e34cfd2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_HEALTH: 5
-  curr_health: 50
+  MAX_HEALTH: 75
+  curr_health: 75
   MOVE_SPEED: 7
   rotateSpeed: 120
   enemyBehavior: 0
