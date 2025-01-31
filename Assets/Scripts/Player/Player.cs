@@ -36,11 +36,19 @@ public class Player : Singleton<Player>
     [SerializeField] List<string> uniqueWeaponList = new List<string>();
 
 
+    private float WS_COOLDOWN = 0.15f;
+    private float weaponSwitchCooldown = 0; // internal cd to prevent the player from going crazy with the scroll wheel
+
     List<Weapon> nearbyWeaponsList = new List<Weapon>(); //List of weapons that are nearby
     
 
     [SerializeField] float pickupRange;
     [SerializeField] LayerMask weaponDetectionLayers;
+
+    [SerializeField] AudioSource weaponSwitchAudioController;
+    [SerializeField] AudioClip weaponSwitchSound;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -85,14 +93,18 @@ public class Player : Singleton<Player>
             PickUpNearbyWeapons();
         }
 
-        if (previousWeaponAction.WasPerformedThisFrame())
+        if (weaponSwitchCooldown <= 0 && previousWeaponAction.WasPerformedThisFrame())
         {
+            PlayWeaponChangeSfx();
             ChangeWeaponIndex(weaponIndex - 1, true);
+            weaponSwitchCooldown = WS_COOLDOWN;
         }
 
-        if (nextWeaponAction.WasPerformedThisFrame())
+        if (weaponSwitchCooldown <= 0 && nextWeaponAction.WasPerformedThisFrame())
         {
+            PlayWeaponChangeSfx();
             ChangeWeaponIndex(weaponIndex + 1, true);
+            weaponSwitchCooldown = WS_COOLDOWN;
         }
     }
 
@@ -106,6 +118,9 @@ public class Player : Singleton<Player>
         float targetSpeed;
         orbitOffset += orbitSpeed * Time.fixedDeltaTime;
         orbitOffset = orbitOffset % 360;
+
+
+        if (weaponSwitchCooldown > 0) weaponSwitchCooldown -= Time.fixedDeltaTime;
         foreach (Weapon loopWeapon in weaponList)
         {
             sumWeights += loopWeapon.weight;
@@ -392,6 +407,14 @@ public class Player : Singleton<Player>
         foreach (Weapon loopWeapon in weaponList)
         {
             loopWeapon.transform.rotation = Quaternion.RotateTowards(loopWeapon.transform.rotation, targetRotation, step);
+        }
+    }
+
+    private void PlayWeaponChangeSfx()
+    {
+        if (weaponSwitchAudioController != null && weaponSwitchSound != null)
+        {
+            weaponSwitchAudioController.Play();
         }
     }
 }

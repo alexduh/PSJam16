@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 
@@ -27,7 +28,6 @@ public class Weapon : MonoBehaviour
 
     //Variables Related to ranged projectiles
     [SerializeField] protected bool ranged;
-    public float range;
     [SerializeField] protected float MAX_AMMO;
 
 
@@ -46,10 +46,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected LineRendererHelper enemyAimingLineRenderer;
     [SerializeField] LayerMask rangedLayerMask;
 
+
+    [SerializeField] AudioSource weaponFireController;
+    [SerializeField] AudioClip[] weaponFireSounds;
+
+
+
     protected void Start()
     {
         setDestination = transform.position;
-        range = projLifeTime * projSpeed;
         curr_ammo = MAX_AMMO;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -144,10 +149,10 @@ public class Weapon : MonoBehaviour
         ToggleSprite(false);
         enemyAimingLineRenderer.EraseLines();
         // add velocity and collision to thrown weapon
-        Debug.Log("Throwing " + gameObject);
         weaponCollider.enabled = true;
         rb.linearVelocity = this.transform.up.normalized * projSpeed;
         tag = "PlayerOwned"; // <-- this is a stopgap to allow thrown weapons to hurt enemy, however they should lose the tag once the throw is 'over'.
+        if(ranged && curr_ammo == 0) StartCoroutine(FadeAway());
         // TODO: add velocity and collision to thrown weapon
     }
 
@@ -216,12 +221,19 @@ public class Weapon : MonoBehaviour
         Vector2 offset = new Vector2(Random.Range(-projSpread, projSpread), Random.Range(-projSpread, projSpread));
         Vector2 direction = this.transform.up.normalized;
         direction = (direction + offset).normalized * projSpeed;
-        direction = direction + rb.linearVelocity;
         ObjectPool.Instance.GetPooledObject(projectile).GetComponent<Projectile>().ActivateProjectile(weaponSpawnPoint.position, direction, DAMAGE, projLifeTime, friendlyFire);
         if (friendlyFire)// enemies will have infinite ammo
         {
             curr_ammo -= 1;
             if (curr_ammo <= 0) FindAnyObjectByType<Player>().ThrowWeapon(this);
+        }
+
+        if (weaponFireSounds.Length > 0)
+        {
+            int randomIndex = Random.Range(0, weaponFireSounds.Length - 1);
+            AudioClip selectedSound = weaponFireSounds[randomIndex];
+
+            weaponFireController.PlayOneShot(selectedSound);
         }
     }
 

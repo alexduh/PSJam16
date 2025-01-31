@@ -2,17 +2,36 @@ using UnityEngine;
 
 public class DestructibleObject : MonoBehaviour
 {
-    [SerializeField] float health = 10;
+    [SerializeField] float health = 6;
+    [SerializeField] SpriteRenderer spriteRenderer;
+
+    [SerializeField] Sprite damagedSprite;
+    [SerializeField] Sprite destroyedSprite;
+    [SerializeField] BoxCollider2D boxCollider;
+
+
+
+
 
     public void Damage(float damage)
     {
         health -= damage;
+
         if (health <= 0)
-            Destruction();
+            SetDestroyed();
+        else if (health <= 5)
+            SetDamaged();
     }
 
-    private void Destruction()
+    private void SetDestroyed()
     {
-        this.gameObject.SetActive(false);
+        spriteRenderer.sprite = destroyedSprite;
+        boxCollider.enabled = false;
+
+    }
+
+    private void SetDamaged()
+    {
+        spriteRenderer.sprite = damagedSprite;
     }
 }
