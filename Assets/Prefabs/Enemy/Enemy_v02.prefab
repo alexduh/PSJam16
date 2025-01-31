@@ -209,7 +209,12 @@ MonoBehaviour:
   numProj: 1
   timeBetweenProj: 1
   weaponCollider: {fileID: 0}
+  projectileHelper: {fileID: 0}
   friendlyFire: 0
+  enemyAimingLineRenderer: {fileID: 0}
+  rangedLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &8007777084849092428
 Rigidbody2D:
   serializedVersion: 5
@@ -453,15 +458,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_HEALTH: 5
   curr_health: 5
-  MOVE_SPEED: 0.2
+  MOVE_SPEED: 0
+  rotateSpeed: 60
   weapon: {fileID: 3411330683755504283}
   rb: {fileID: 7036595972570474556}
   windUpTime: 0
-  cooldownTime: 0
+  cooldownTimeLimit: 0
   attackLeeway: 1
   gunPoint: {fileID: 2193889382503370101}
   rig: {fileID: 1607901993629263054}
   headRig: {fileID: 6363030627428107575}
+  detectionLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  detectionRange: 0
+  enemyBodySprite: {fileID: 0}
 --- !u!50 &7036595972570474556
 Rigidbody2D:
   serializedVersion: 5

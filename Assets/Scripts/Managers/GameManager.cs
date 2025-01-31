@@ -49,14 +49,14 @@ public class GameManager : MonoBehaviour
                 if (Vector3.Distance(attemptSpawn.position, enemy.position) < 10 && Vector3.Distance(attemptSpawn.position, Player.Instance.transform.position) < 10)
                 {
                     charCloseby = false;
-                    break;
+                    return;
                 }
             }
 
             spawnPos = attemptSpawn.transform.position;
         }
 
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        Instantiate(enemyPrefab, spawnPos, Quaternion.identity, enemies.transform);
     }
 
     void SpawnWave(int size)
