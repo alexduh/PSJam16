@@ -33,30 +33,23 @@ public class GameManager : MonoBehaviour
     void SpawnEnemy()
     {
         Vector3 spawnPos = new Vector3();
-        int numSpawns = spawnLocations.transform.hierarchyCount;
-
-        bool charCloseby = true;
+        int numSpawns = spawnLocations.transform.childCount;
         
-        while (charCloseby)
+        Transform attemptSpawn = spawnLocations.transform.GetChild(Random.Range(0, numSpawns-1));
+
+        // if there is already a character near a location, do not spawn a new one there!
+        foreach (Transform enemy in enemies.transform)
         {
-            Transform attemptSpawn = spawnLocations.transform.GetChild(Random.Range(0, numSpawns-2));
-
-            if (enemies.transform.hierarchyCount <= 1)
-                charCloseby = false;
-            // if there is already a character near a location, do not spawn a new one there!
-            foreach (Transform enemy in enemies.transform)
-            {
-                if (Vector3.Distance(attemptSpawn.position, enemy.position) < 10 && Vector3.Distance(attemptSpawn.position, Player.Instance.transform.position) < 10)
-                {
-                    charCloseby = false;
-                    return;
-                }
-            }
-
-            spawnPos = attemptSpawn.transform.position;
+            if (Vector3.Distance(attemptSpawn.position, enemy.position) < 2 && Vector3.Distance(attemptSpawn.position, Player.Instance.transform.position) < 10)
+                spawnPos = attemptSpawn.transform.position;
         }
 
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity, enemies.transform);
+        if (spawnPos != Vector3.zero)
+        {
+            GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity, enemies.transform);
+            newEnemy.GetComponent<Enemy>().isAggressive = true;
+        }
+
     }
 
     void SpawnWave(int size)
