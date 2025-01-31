@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject enemies;
     [SerializeField] GameObject spawnLocations;
 
+    [SerializeField] AudioSource waveNoiseController;
+
     void Initialize()
     {
         wave_number = 0;
@@ -54,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     void SpawnWave(int size)
     {
+        waveNoiseController.Play();
+
         wave_number += 1;
         wave_time *= 1.2f;
         wave_timer = wave_time;
@@ -61,6 +65,8 @@ public class GameManager : MonoBehaviour
         wave_size = (int)(wave_size * 1.2f);
         for (int i = 0; i < size; i++)
             SpawnEnemy();
+
+
     }
 
     void Update()

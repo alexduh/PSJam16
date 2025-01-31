@@ -70,6 +70,7 @@ public class Player : Singleton<Player>
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
 
         float horizontaldir = Mathf.Round(moveAction.ReadValue<Vector2>().x);
         float verticaldir = Mathf.Round(moveAction.ReadValue<Vector2>().y);
