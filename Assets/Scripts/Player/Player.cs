@@ -29,10 +29,10 @@ public class Player : Singleton<Player>
     [SerializeField] Knife swordPrefab;
     [SerializeField] Transform weaponHolder; // picked up weapons will be parented to this object
 
-    [SerializeField] List<Weapon> weaponList = new List<Weapon>(); //This is the core of the class. Contains a list of all weapons avaliable to the player
-    [SerializeField] int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
+    public List<Weapon> weaponList = new List<Weapon>(); //This is the core of the class. Contains a list of all weapons avaliable to the player
+    public int weaponIndex = 0; //Index of the active weapon. Change this to change teh active weapon.
     [SerializeField] float weaponRevolveRadius;
-    [SerializeField] List<Weapon> sameWeaponTypeList = new List<Weapon>(); //List of weapons that are the same as the active weapon. Recalcalculated whenever the active weapon changes
+    public List<Weapon> sameWeaponTypeList = new List<Weapon>(); //List of weapons that are the same as the active weapon. Recalcalculated whenever the active weapon changes
     [SerializeField] List<string> uniqueWeaponList = new List<string>();
 
 
@@ -47,6 +47,8 @@ public class Player : Singleton<Player>
 
     [SerializeField] AudioSource weaponSwitchAudioController;
     [SerializeField] AudioClip weaponSwitchSound;
+
+    public bool isDead;
 
 
 
@@ -133,12 +135,9 @@ public class Player : Singleton<Player>
 
     }
 
-    private void Death()
+    public void Death()
     {
-        Debug.Log("Player Death() called!");
-        // TODO: player death animation, sounds
-
-        // TODO: GameManager should handle Game Over!
+        isDead = true;
     }
 
     public void TakeDamage()
