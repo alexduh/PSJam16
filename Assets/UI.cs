@@ -14,6 +14,8 @@ public class UI : MonoBehaviour
     [SerializeField] float startingTime = 60 * 10;
     [SerializeField] float time;
 
+    [SerializeField] ExitDoor exitDoor;
+
     Player player;
     
 
@@ -47,6 +49,10 @@ public class UI : MonoBehaviour
             time -= Time.deltaTime;
         }
 
+        if (exitDoor.playerEscaped)
+        {
+            victoryMenu.SetActive(true);
+        }
 
     }
 
@@ -69,9 +75,6 @@ public class UI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            victoryMenu.SetActive(true);
-        }
+
     }
 }
